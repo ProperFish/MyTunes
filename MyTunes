@@ -1,0 +1,5 @@
+SERVER      = 127.0.0.1\\SQLEXPRESS
+PORT        = 1434
+DATABASE    = MyTunes
+USER        = java
+PASSWORD    = test
