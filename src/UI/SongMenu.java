@@ -5,6 +5,7 @@
 package UI;
 
 //import BE.Song;
+import BE.Song;
 import DAL.MyTunesManager;
 import java.util.ArrayList;
 
@@ -16,7 +17,8 @@ import java.util.ArrayList;
 public class SongMenu extends Menu
 {
     private MyTunesManager mgr;
-    //private final Song song;
+    private final Song song;
+    //private final Song s;
 
     public SongMenu()
     {
@@ -27,7 +29,7 @@ public class SongMenu extends Menu
                 "Update a song",
                 "Remove a song",
                 "Check");
-        //this.song = s;
+        this.song = s;
 
     }
 

@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Properties;
 
 /**
@@ -56,9 +57,10 @@ public class MyTunesManager
                 String title = rs.getString("Title");
                 String artist = rs.getString("Artist");
                 String category = rs.getString("Category");
+                String filename = rs.getString("Filename");
                 int duration = rs.getInt("Duration");
 
-                Song son = new Song(ID, title, artist, category, duration);
+                Song son = new Song(ID, title, artist, category, filename, duration);
                 songs.add(son);
             }
             return songs;
@@ -83,8 +85,9 @@ public class MyTunesManager
             String title = rs.getString("Title");
             String artist = rs.getString("Artist");
             String category = rs.getString("Category");
+            String filename = rs.getString("Filename");
             int duration = rs.getInt("Duration");
-            song = new Song(ID, title, artist, category, duration);
+            song = new Song(ID, title, artist, category, filename, duration);
             return song;
         }
     }
@@ -112,9 +115,10 @@ public class MyTunesManager
                 String title = rs.getString("Title");
                 String artist = rs.getString("Artist");
                 String category = rs.getString("Category");
+                String filename = rs.getString("Filename");
                 int duration = rs.getInt("Duration");
 
-                Song son = new Song(ID, title, artist, category, duration);
+                Song son = new Song(ID, title, artist, category, filename, duration);
                 songs.add(son);
             }
             return songs;
@@ -146,7 +150,7 @@ public class MyTunesManager
         String sql1 = ""
                 + "SELECT Category.ID"
                 + "WHERE Category.Name = ?";
-        Connection con1 dataSource.getConnection();
+        //Connection con1 dataSource.getConnection();
         PreparedStatement ps1 = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         int affectedRows = ps.executeUpdate();

@@ -1,5 +1,6 @@
 package BE;
 
+import java.util.Calendar;
 /**
  *
  * @author drengene
@@ -24,7 +25,7 @@ public class Song
         this.filename = s.getFilename();
     }
     
-    public Song(int id, String title , String artist, String category, int duration, String filename)
+    public Song(int id, String title , String artist, String category, String filename, int duration)
     {
         this.id = id;
         this.title = title;
@@ -114,8 +115,8 @@ public class Song
     @Override
     public String toString()
     {
-        int min = duration/60;
-        int sec = duration-min*60;
-        return String.format("%3d %-30s %-30s %4d", title, artist, category, min + ":" + sec);
+        //int min = duration/60;
+        //int sec = duration-min*60;
+        return String.format("%3d %-30s %-30s %4d %2d", title, artist, category, duration, id);
     }
 }
