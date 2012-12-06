@@ -1,20 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package UI;
 
-//import BE.Song;
-
 /**
- *
- * @author bhp
+ * MyTunes, EASV (14/12/2012)
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
  */
+
 public class ControlMenu extends Menu
 {
 
-    //private final Song song;
-
+    //Initialisér eventuelt et 'Song' objekt?
     public ControlMenu()
     {
         super("Controls:",
@@ -24,8 +18,6 @@ public class ControlMenu extends Menu
                 "Pause",
                 "Resume",
                 "What's playing?");
-       //this.song = s;
-
     }
 
     @Override

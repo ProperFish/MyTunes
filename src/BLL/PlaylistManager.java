@@ -6,9 +6,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- *
- * @author drengene
+ * MyTunes, EASV (14/12/2012)
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
  */
+
 public class PlaylistManager
 {
 

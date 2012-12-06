@@ -1,17 +1,15 @@
 package UI;
 
-//import BE.Playlist;
-
 import BE.Song;
 import BLL.PlaylistManager;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 /**
- *
- * @author drengene
+ * MyTunes, EASV (14/12/2012)
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
  */
+
 public class PlaylistMenu extends Menu
 {
 

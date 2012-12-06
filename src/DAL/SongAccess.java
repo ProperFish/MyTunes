@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package DAL;
 import BE.Song;
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
@@ -12,13 +8,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-//import java.util.Calendar;
 import java.util.Properties;
 
 /**
- *
- * @author bhp
+ * MyTunes, EASV (14/12/2012)
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
  */
+
 public class SongAccess
 {
 

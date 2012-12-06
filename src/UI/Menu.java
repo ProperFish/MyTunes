@@ -1,16 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package UI;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- *
- * @author bhp
+ * MyTunes, EASV (14/12/2012)
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
  */
+
 public abstract class Menu
 {
 

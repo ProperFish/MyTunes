@@ -1,17 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package BE;
-//import java.util.Calendar;
 
 /**
- *
- * @author drengene
+ * MyTunes, EASV (14/12/2012)
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
  */
+
 public class Playlist
 {
-    // instance fields
+    // Instance fields.
     private int id;
     private String name;
     private String created;

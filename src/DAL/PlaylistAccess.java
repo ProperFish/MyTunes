@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package DAL;
 
 import BE.Playlist;
@@ -16,9 +12,10 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 /**
- *
- * @author bhp
+ * MyTunes, EASV (14/12/2012)
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
  */
+
 public class PlaylistAccess {
 
     private SQLServerDataSource dataSource;
