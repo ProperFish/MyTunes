@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package BE;
-import java.util.Calendar;
+//import java.util.Calendar;
 
 /**
  *
@@ -14,14 +14,22 @@ public class Playlist
     // instance fields
     private int id;
     private String name;
-    private Calendar created;
+    private String created;
     
-    public Playlist(String name)
+    public Playlist(int id, Playlist p)
     {
-        this.name = name;
+        this.id = p.id;
+        this.name = p.name;
+        this.created = p.created;
     }
     
-    public Playlist(int id, String name , Calendar created)
+    public Playlist(int id, String name)
+    {
+        this.name = name;
+        this.id = id;
+    }
+    
+    public Playlist(int id, String name , String created)
     {
         this.id = id;
         this.name = name;
@@ -55,7 +63,7 @@ public class Playlist
     /**
      * @return the address
      */
-    public Calendar getCreated()
+    public String getCreated()
     {
         return created;
     }
