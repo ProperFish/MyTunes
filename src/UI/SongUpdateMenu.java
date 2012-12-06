@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 public class SongUpdateMenu extends Menu
 {
-
     private final Song song;
 
     public SongUpdateMenu(Song s)
@@ -21,7 +20,6 @@ public class SongUpdateMenu extends Menu
                 "Edit artist",
                 "Edit category");
         this.song = s;
-
     }
 
     @Override
@@ -105,6 +103,6 @@ public class SongUpdateMenu extends Menu
     {
         System.out.println();
         System.out.println(String.format("%30s %-30s %-30s %30s",
-                "ARTIST", "TITLE", "FILENAME", "CATEGORY"));
+        "ARTIST", "TITLE", "FILENAME", "CATEGORY"));
     }
 }
