@@ -168,7 +168,7 @@ public class SongMenu extends Menu
         {
             System.out.print("Select song title: ");
             String title = new Scanner(System.in, "iso-8859-1").nextLine();
-            Song songs = mgr.getByTitle(title);
+            Song songs = mgr.getByName(title);
             if (songs != null)
             {
                 new SongUpdateMenu(songs).run();
@@ -191,10 +191,10 @@ public class SongMenu extends Menu
         System.out.println("");
         try
         {
-            System.out.print("Select song title: ");
-            String title = new Scanner(System.in, "iso-8859-1").nextLine();
+            System.out.print("Select song ID: ");
+            int ID = new Scanner(System.in, "iso-8859-1").nextInt();
 
-            mgr.deleteSong(title);
+            mgr.deleteSong(ID);
         }
         catch (Exception e)
         {
