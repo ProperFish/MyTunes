@@ -12,6 +12,11 @@ public class Playlist
     private String name;
     private String created;
     
+    /**
+     * Constructor for a playlist-object, accepting;
+     * ID and an already existing playlist-object..
+     * @param id and playlist object.
+     */
     public Playlist(int id, Playlist p)
     {
         this.id = p.id;
@@ -19,12 +24,22 @@ public class Playlist
         this.created = p.created;
     }
     
+    /**
+     * Constructor for a playlist-object, accepting;
+     * ID and Name.
+     * @param id and name.
+     */
     public Playlist(int id, String name)
     {
         this.name = name;
         this.id = id;
     }
     
+    /**
+     * Constructor for a playlist-object, accepting;
+     * ID, Name and Creation-date.
+     * @param id, name and creation-date.
+     */
     public Playlist(int id, String name , String created)
     {
         this.id = id;
@@ -33,7 +48,8 @@ public class Playlist
     }
 
     /**
-     * @return the id
+     * Returns the ID of a playlist.
+     * @return the ID.
      */
     public int getId()
     {
@@ -41,7 +57,8 @@ public class Playlist
     }
 
     /**
-     * @return the name
+     * Gets the name of the playlist.
+     * @return the name.
      */
     public String getName()
     {
@@ -49,7 +66,8 @@ public class Playlist
     }
 
     /**
-     * @param name the name to set
+     * Sets the name of the playlist.
+     * @param name the name to set.
      */
     public void setName(String name)
     {
@@ -57,12 +75,14 @@ public class Playlist
     }
 
     /**
-     * @return the address
+     * Returns the creation-time of the playlist.
+     * @return the time of creation.
      */
     public String getCreated()
     {
         return created;
     }
+    
 //    @Override
 //    public String toString()
 //    {
