@@ -155,7 +155,7 @@ public class PlaylistAccess {
 
         int affectedRows = ps.executeUpdate();
         if (affectedRows == 0) {
-            throw new SQLException("Unable to update playlist");
+            throw new SQLException("Unable to update playlist.");
         }
     }
 
