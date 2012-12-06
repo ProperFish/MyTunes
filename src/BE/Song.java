@@ -25,6 +25,14 @@ public class Song
         this.filename = s.getFilename();
     }
     
+    public Song(String title, String artist, String category, String filename)
+    {
+        this.title = title;
+        this.artist = artist;
+        this.category = category;
+        this.filename = filename;
+    }
+    
     public Song(int id, String title , String artist, String category, String filename, int duration)
     {
         this.id = id;
