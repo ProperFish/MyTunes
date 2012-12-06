@@ -1,7 +1,7 @@
 package BLL;
 
 import BE.Song;
-import DAL.MyTunesManager;
+import DAL.SongAccess;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -13,11 +13,11 @@ public class SongManager
 {
 
     private static SongManager instance = null;
-    private MyTunesManager db = null;
+    private SongAccess db = null;
 
     private SongManager() throws Exception
     {
-        db = new MyTunesManager();
+        db = new SongAccess();
     }
 
     public static SongManager getInstance() throws Exception
