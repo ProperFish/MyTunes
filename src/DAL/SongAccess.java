@@ -124,30 +124,21 @@ public class SongAccess
     public Song insert(Song s) throws SQLException
     {
         String sql = ""
-                + "SELECT Artist.ID"
-                + "into temp"
-                + "WHERE Artist.Name = ?"
-                + "SELECT category.ID"
-                + "into temp2"
-                + "where category.Name = ?"
-                + "insert into Song"
-                + "(?,temp.ID,temp2.ID,?,?)"
-                + "drop temp,temp2";
-
+                + "insert into Song (title,artistID,categoryID,filename,duration)"
+                + "select ?, artist.ID'AID',category.ID'CID',?,?"
+                + "from artist,category"
+                + "where artist.name like ? and category.category like ?";
+                
         Connection con = dataSource.getConnection();
         PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-        ps.setString(1, s.getArtist());
-        ps.setString(2, s.getCategory());
+        ps.setString(1, s.getTitle());
+        ps.setString(2, s.getFilename());
         
-        ps.setString(3, s.getTitle());
-        ps.setString(4, s.getFilename());
-        ps.setInt(5, s.getDuration());
+        ps.setInt(3, s.getDuration());
+        ps.setString(4, s.getArtist());
+        ps.setString(5, s.getCategory());
         
-        String sql1 = ""
-                + "SELECT Category.ID"
-                + "WHERE Category.Name = ?";
-        //Connection con1 dataSource.getConnection();
-        PreparedStatement ps1 = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        
 
         int affectedRows = ps.executeUpdate();
         if (affectedRows == 0)
