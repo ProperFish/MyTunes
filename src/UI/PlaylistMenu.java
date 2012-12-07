@@ -103,7 +103,7 @@ public class PlaylistMenu extends Menu
     @Override
     public String toString()
     {
-       return String.format("%d %s %s", p.getId(), p.getName(), p.getCreated());
+       return String.format("%-d %s %s", p.getId(), p.getName(), p.getCreated());
     }
 
     private void showAllSongs()
