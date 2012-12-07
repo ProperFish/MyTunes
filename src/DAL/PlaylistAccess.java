@@ -33,106 +33,107 @@ public class PlaylistAccess {
         dataSource.setPassword(props.getProperty("PASSWORD"));
     }
 
-    public ArrayList<Playlist> getAll() throws SQLException {
+    /**
+     * Returns an arraylist containing all playlists on the server.
+     * @return an arraylist of all playlists.
+     * @throws SQLException
+     */
+    public ArrayList<Playlist> getAll() throws SQLException 
+    {
         try (Connection con = dataSource.getConnection()) {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(""
-                    + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category'"
-                    + "FROM Song"
-                    + "inner join Artist on Song.ArtistID = Artist.ID"
-                    + "inner join Category on Song.CategoryID = Category.ID"
-                    + "ORDER BY Song.Title");
+                    + "SELECT Playlist.ID, Playlist.Name"
+                    + "FROM Playlist"
+                    + "ORDER BY Name");
 
-            ArrayList<Playlist> playlists = new ArrayList<>();
+            ArrayList<Playlist> results = new ArrayList<>();
             while (rs.next()) {
                 int ID = rs.getInt("ID");
                 String name = rs.getString("Name");
-                String created = rs.getString("Created");
 
-                Playlist plst = new Playlist(ID, name, created);
-                playlists.add(plst);
+                Playlist result = new Playlist(ID, name);
+                results.add(result);
             }
-            return playlists;
+            return results;
         }
     }
 
-    public Playlist getByID(int id) throws SQLException {
-        try (Connection con = dataSource.getConnection()) {
+    /**
+     * Returns a playlist by fetching a matching ID on the server.
+     * @param id the ID of the playlist to be searched for.
+     * @return a playlist-object.
+     * @throws SQLException
+     */
+    public Playlist getByID(int id) throws SQLException 
+    {
+        try (Connection con = dataSource.getConnection()) 
+        {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(""
-                    + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category'"
-                    + "FROM Song"
-                    + "inner join Artist on Song.ArtistID = Artist.ID"
-                    + "inner join Category on Song.CategoryID = Category.ID"
-                    + "WHERE Song.ID = " + id
-                    + "ORDER BY Song.Title");
-            Playlist plst;
+                    + "SELECT Playlist.ID, Playlist.Name"
+                    + "FROM Playlist"
+                    + "WHERE ID = " + id
+                    + "ORDER BY Name");
+            Playlist result;
             rs.next();
             int ID = rs.getInt("ID");
             String name = rs.getString("Name");
-            String created = rs.getString("Created");
-            plst = new Playlist(ID, name, created);
-            return plst;
+            result = new Playlist(ID, name);
+            return result;
         }
     }
 
-    public ArrayList<Playlist> getByName(String name) throws SQLException {
+    /**
+     * Gets all playlists matching the search-term.
+     * @param name the name to be searched for.
+     * @return an arraylist containing all playlists that contains the search-term.
+     * @throws SQLException 
+     */
+    public ArrayList<Playlist> getByName(String name) throws SQLException 
+    {
         try (Connection con = dataSource.getConnection()) {
             String sql = (""
-                    + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category'"
-                    + "FROM Song"
-                    + "inner join Artist on Song.ArtistID = Artist.ID"
-                    + "inner join Category on Song.CategoryID = Category.ID"
-                    + "WHERE Title = ? OR Artist = ?"
-                    + "ORDER BY Song.Title");
+                    + "SELECT Playlist.ID, Playlist.Name"
+                    + "FROM Playlist"
+                    + "where Name like ?"
+                    + "ORDER BY Name");
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, name);
-            ps.setString(2, name);
             ResultSet rs = ps.executeQuery();
 
-            ArrayList<Playlist> playlists = new ArrayList<>();
+            ArrayList<Playlist> results = new ArrayList<>();
             while (rs.next()) {
                 int ID = rs.getInt("ID");
-                String plstname = rs.getString("Name");
-                String created = rs.getString("Created");
+                String pname = rs.getString("Name");
 
-                Playlist plst = new Playlist(ID, plstname, created);
-                playlists.add(plst);
+                Playlist playlist = new Playlist(ID, pname);
+                results.add(playlist);
             }
-            return playlists;
+            return results;
         }
     }
 
-    public Playlist insert(Playlist p) throws SQLException {
+    /**
+     * Puts a new playlist-object on the server.
+     * @param p a given playlist-object.
+     * @return the newly created playlist object.
+     * @throws SQLException 
+     */
+    public Playlist insert(Playlist p) throws SQLException 
+    {
         String sql = ""
-                + "SELECT Artist.ID"
-                + "into temp"
-                + "WHERE Artist.Name = ?"
-                + "SELECT category.ID"
-                + "into temp2"
-                + "where category.Name = ?"
-                + "insert into Song"
-                + "(?,temp.ID,temp2.ID,?,?)"
-                + "drop temp,temp2";
+                + "INSERT INTO Playlist"
+                + "VALUES(?)";
 
         Connection con = dataSource.getConnection();
         PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-        ps.setString(1, p.getArtist());
-        ps.setString(2, p.getCategory());
-
-        ps.setString(3, p.getTitle());
-        ps.setString(4, p.getFilename());
-        ps.setInt(5, p.getDuration());
-
-        String sql1 = ""
-                + "SELECT Category.ID"
-                + "WHERE Category.Name = ?";
-        //Connection con1 dataSource.getConnection();
-        PreparedStatement ps1 = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        ps.setString(1, p.getName());
 
         int affectedRows = ps.executeUpdate();
-        if (affectedRows == 0) {
-            throw new SQLException("Unable to insert playlist");
+        if (affectedRows == 0) 
+        {
+            throw new SQLException("Unable to insert playlist.");
         }
 
         ResultSet keys = ps.getGeneratedKeys();
@@ -142,30 +143,35 @@ public class PlaylistAccess {
         return new Playlist(id, p);
     }
 
-    public void update(Playlist p) throws SQLException {
-        String sql = "UPDATE Song SET Title = ?, Artist = ?, Category = ? , Duration = ? WHERE Id = ?";
-
+    /**
+     * Updates a playlist that is selected by ID.
+     * @param p the playlist to be updated.
+     * @throws SQLException 
+     */
+    public void update(Playlist p) throws SQLException 
+    {
+        String sql = "UPDATE Playlist SET Name = ?";
         Connection con = dataSource.getConnection();
-
         PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, p.getTitle());
-        ps.setString(2, p.getArtist());
-        ps.setString(3, p.getCategory());
-        ps.setInt(4, p.getDuration());
-
+        ps.setString(1, p.getName());
         int affectedRows = ps.executeUpdate();
         if (affectedRows == 0) {
             throw new SQLException("Unable to update playlist.");
         }
     }
 
-    public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM Song WHERE Id = ?";
+    /**
+     * Deletes a playlist with a given ID from the server.
+     * @param id the ID of the playlist for deletion.
+     * @throws SQLException 
+     */
+    public void delete(int id) throws SQLException 
+    {
+        String sql = "DELETE FROM Playlist WHERE Id = " + id;
 
         Connection con = dataSource.getConnection();
 
         PreparedStatement ps = con.prepareStatement(sql);
-        ps.setInt(1, id);
 
         int affectedRows = ps.executeUpdate();
         if (affectedRows == 0) {
