@@ -1,4 +1,5 @@
 package DAL;
+
 import BE.Song;
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import java.io.FileReader;
@@ -17,16 +18,18 @@ import java.util.Properties;
 
 public class SongAccess
 {
-
+    // Instance fields.
     private SQLServerDataSource dataSource;
 
+    /**
+     * Establishes a connection to the server from the "MyTunes.cfg" file.
+     * @throws Exception throws SQLExceptions and a custom error.
+     */
     public SongAccess() throws Exception
     {
         Properties props = new Properties();
         props.load(new FileReader("MyTunes.cfg"));
-
         dataSource = new SQLServerDataSource();
-
         dataSource.setServerName(props.getProperty("SERVER"));
         dataSource.setPortNumber(Integer.parseInt(props.getProperty("PORT")));
         dataSource.setDatabaseName(props.getProperty("DATABASE"));
@@ -34,6 +37,11 @@ public class SongAccess
         dataSource.setPassword(props.getProperty("PASSWORD"));
     }
 
+    /**
+     * Returns an ArrayList containing all songs from the server.
+     * @return ArrayList containing all songs.
+     * @throws SQLException throws SQLExceptions and a custom error.
+     */
     public ArrayList<Song> getAll() throws SQLException
     {
         try (Connection con = dataSource.getConnection())
@@ -63,6 +71,12 @@ public class SongAccess
         }
     }
 
+    /**
+     * Gets information from a song with a given ID.
+     * @param id the id of the song to be "downloaded".
+     * @return returns all the information of the given song-id.
+     * @throws SQLException throws SQLExceptions and a custom error.
+     */
     public Song getByID(int id) throws SQLException
     {
         try (Connection con = dataSource.getConnection())
@@ -88,23 +102,27 @@ public class SongAccess
         }
     }
 
-    public ArrayList<Song> getByName(String name) throws SQLException
+    /**
+     * Gets all song-objects matching the search-string.
+     * @param query the search-string to be matched on the server.
+     * @return all songs matching the search-string.
+     * @throws SQLException throws SQLExceptions and a custom error.
+     */
+    public ArrayList<Song> getByName(String query) throws SQLException
     {
         try (Connection con = dataSource.getConnection())
         {
             String sql = (""
                     + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category'"
                     + "FROM Song"
-                    + "inner join Artist on Song.ArtistID = Artist.ID"
-                    + "inner join Category on Song.CategoryID = Category.ID"
-                    + "WHERE Title = ? OR Artist = ?"
+                    + "INNER JOIN Artist on Song.ArtistID = Artist.ID"
+                    + "INNER JOIN Category on Song.CategoryID = Category.ID"
+                    + "WHERE Title LIKE ? OR Artist LIKE ?"
                     + "ORDER BY Song.Title");
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, name);
-            ps.setString(2, name);
+            ps.setString(1, query);
             ResultSet rs = ps.executeQuery();
-
-            ArrayList<Song> songs = new ArrayList<>();
+            ArrayList<Song> results = new ArrayList<>();
             while (rs.next())
             {
                 int ID = rs.getInt("ID");
@@ -113,21 +131,26 @@ public class SongAccess
                 String category = rs.getString("Category");
                 String filename = rs.getString("Filename");
                 int duration = rs.getInt("Duration");
-
-                Song son = new Song(ID, title, artist, category, filename, duration);
-                songs.add(son);
+                Song result = new Song(ID, title, artist, category, filename, duration);
+                results.add(result);
             }
-            return songs;
+            return results;
         }
     }
 
+    /**
+     * Creates a new song on the server from a given song-object locally.
+     * @param s the song object to be uploaded.
+     * @return returns the new song object with a correct ID from the server.
+     * @throws SQLException throws SQLExceptions and a custom error.
+     */
     public Song insert(Song s) throws SQLException
     {
         String sql = ""
-                + "insert into Song (title,artistID,categoryID,filename,duration)"
-                + "select ?, artist.ID'AID',category.ID'CID',?,?"
-                + "from artist,category"
-                + "where artist.name like ? and category.category like ?";
+                + "INSERT INTO Song (title,artistID,categoryID,filename,duration)"
+                + "SELECT ?, artist.ID'AID',category.ID'CID',?,?"
+                + "FROM artist,category"
+                + "WHERE artist.name like ? and category.category like ?";
                 
         Connection con = dataSource.getConnection();
         PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -153,6 +176,11 @@ public class SongAccess
         return new Song(id, s);
     }
 
+    /**
+     * Updates a song-object on the server by handling changes locally first.
+     * @param s the local song-object.
+     * @throws SQLException throws SQLExceptions and a custom error.
+     */
     public void update(Song s) throws SQLException
     {
         String sql = "UPDATE Song SET Title = ?, Artist = ?, Category = ? , Duration = ? WHERE Id = ?";
@@ -172,6 +200,11 @@ public class SongAccess
         }
     }
 
+    /**
+     * Deletes a song on the server, specified by ID.
+     * @param id the ID of a song to be deleted.
+     * @throws SQLException throws SQLExceptions and a custom error.
+     */
     public void delete(int id) throws SQLException
     {
         String sql = "DELETE FROM Song WHERE Id = ?";
