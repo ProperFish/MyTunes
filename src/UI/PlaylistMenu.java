@@ -1,5 +1,4 @@
 package UI;
-
 import BE.Playlist;
 import BE.Song;
 import BLL.PlaylistManager;
@@ -10,13 +9,10 @@ import java.util.Scanner;
 
 /**
  * MyTunes, EASV (14/12/2012)
- *
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og
- * Jesper Agerbo Hansen
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
  */
 public class PlaylistMenu extends Menu
 {
-
     private PlaylistManager mgr;
     private SongManager sMgr;
     private final Playlist playlist;
@@ -188,28 +184,29 @@ public class PlaylistMenu extends Menu
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    /**
+     * 
+     */
     private void addSong()
     {
         clear();
         System.out.println("Enter playlist id");
         int id = new Scanner(System.in).nextInt();
 
+        Song song;
         try
         {
+            System.out.print("Enter song id: ");
+            int sid = new Scanner(System.in).nextInt();
             try
             {
-                System.out.print("Enter song id: ");
-                int sid = new Scanner(System.in).nextInt();
+                song = sMgr.getById(sid);
             }
             catch (InputMismatchException ie)
             {
                 System.out.println("ERROR - ID must be a number");
             }
-
-            Song songs = sMgr.getById(sid);
-
-            mgr.addSong(id, songs);
-
+            mgr.addSong(id, song);
             System.out.println();
             System.out.println("Song added!");
         }
@@ -224,27 +221,30 @@ public class PlaylistMenu extends Menu
         pause();
     }
 
+    /**
+     *
+     */
     private void removeSong()
     {
         clear();
         System.out.println("Enter playlist id");
         int id = new Scanner(System.in).nextInt();
 
+        Song song;
         try
         {
+            System.out.print("Enter song id: ");
+            int sid = new Scanner(System.in).nextInt();
             try
             {
-                System.out.print("Enter song id: ");
-                int sid = new Scanner(System.in).nextInt();
+                song = sMgr.getById(sid);
             }
             catch (InputMismatchException ie)
             {
                 System.out.println("ERROR - ID must be a number");
             }
 
-            Song songs = sMgr.getById(sid);
-
-            mgr.removeSong(id, songs);
+            mgr.removeSong(id, song);
 
             System.out.println();
             System.out.println("Song removed!");
