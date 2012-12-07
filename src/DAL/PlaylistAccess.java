@@ -18,14 +18,13 @@ import java.util.Properties;
 
 public class PlaylistAccess {
 
+    // Instance fields.
     private SQLServerDataSource dataSource;
 
     public PlaylistAccess() throws Exception {
         Properties props = new Properties();
         props.load(new FileReader("MyTunes.cfg"));
-
         dataSource = new SQLServerDataSource();
-
         dataSource.setServerName(props.getProperty("SERVER"));
         dataSource.setPortNumber(Integer.parseInt(props.getProperty("PORT")));
         dataSource.setDatabaseName(props.getProperty("DATABASE"));
@@ -96,7 +95,7 @@ public class PlaylistAccess {
             String sql = (""
                     + "SELECT Playlist.ID, Playlist.Name"
                     + "FROM Playlist"
-                    + "where Name like ?"
+                    + "WHERE Name LIKE ?"
                     + "ORDER BY Name");
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, name);
