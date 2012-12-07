@@ -1,5 +1,6 @@
 package UI;
 
+import BE.Playlist;
 import BE.Song;
 import BLL.PlaylistManager;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class PlaylistMenu extends Menu
     private PlaylistManager mgr;
 
     private final Playlist playlist;
+    private Playlist p;
 
     public PlaylistMenu()
     {
@@ -72,8 +74,8 @@ public class PlaylistMenu extends Menu
     private void printSongHeader()
     {
         System.out.println();
-        System.out.println(String.format("%30s %-30s %-30s %30s",
-                "ARTIST", "TITLE", "FILENAME", "CATEGORY"));
+        System.out.println(String.format("%3d %30s %-30s %-30s %30s",
+                "ID", "ARTIST", "TITLE", "FILENAME", "CATEGORY"));
     }
     
     private void showAllPlaylists()
@@ -96,6 +98,12 @@ public class PlaylistMenu extends Menu
             System.out.println(" ERROR - " + e.getMessage());
         }
         pause();
+    }
+    
+    @Override
+    public String toString()
+    {
+       return String.format("%d %s %s", p.getId(), p.getName(), p.getCreated());
     }
 
     private void showAllSongs()
