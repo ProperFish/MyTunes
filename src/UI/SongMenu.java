@@ -3,19 +3,20 @@ package UI;
 import BE.Song;
 import BLL.SongManager;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 //import java.util.InputMismatchException;
 
-
 /**
  * MyTunes, EASV (14/12/2012)
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
+ *
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og
+ * Jesper Agerbo Hansen
  */
-
 public class SongMenu extends Menu
 {
+
     private SongManager mgr;
-    
 
     public SongMenu()
     {
@@ -66,10 +67,10 @@ public class SongMenu extends Menu
     private void printSongHeader()
     {
         System.out.println();
-        System.out.println(String.format("%30s %-30s %-30s %30s",
-                "ARTIST", "TITLE", "FILENAME", "CATEGORY"));
+        System.out.println(String.format("%3d %30s %-30s %-30s %30s",
+                "ID", "ARTIST", "TITLE", "FILENAME", "CATEGORY"));
     }
-    
+
     private void listAll()
     {
         clear();
@@ -106,7 +107,7 @@ public class SongMenu extends Menu
         {
             ArrayList<Song> songs = mgr.getByName(name);
 
-            System.out.println("Mathing songs:");
+            System.out.println("Matching songs:");
             printSongHeader();
             for (Song e : songs)
             {
@@ -141,7 +142,7 @@ public class SongMenu extends Menu
 
             System.out.print("Category: ");
             String category = sc.nextLine();
-            
+
             Song songs = new Song(title, artist, filename, category);
 
             songs = mgr.addSong(songs);
@@ -164,8 +165,9 @@ public class SongMenu extends Menu
         try
         {
             System.out.print("Select song title: ");
-            String title = new Scanner(System.in, "iso-8859-1").nextLine();
-            Song songs = mgr.getByName(title);
+            int id = new Scanner(System.in).nextInt();
+            Song songs = mgr.getById(id);
+
             if (songs != null)
             {
                 new SongUpdateMenu(songs).run();
@@ -174,6 +176,10 @@ public class SongMenu extends Menu
             {
                 System.out.println("ERROR - Song not found.");
             }
+        }
+        catch (InputMismatchException ie)
+        {
+            System.out.println("ERROR - ID must be number");
         }
         catch (Exception e)
         {
@@ -189,9 +195,13 @@ public class SongMenu extends Menu
         try
         {
             System.out.print("Select song ID: ");
-            int ID = new Scanner(System.in, "iso-8859-1").nextInt();
+            int ID = new Scanner(System.in).nextInt();
 
             mgr.deleteSong(ID);
+        }
+        catch (InputMismatchException ie)
+        {
+            System.out.println("ERROR - ID must be number");
         }
         catch (Exception e)
         {

@@ -6,11 +6,13 @@ import java.util.Scanner;
 
 /**
  * MyTunes, EASV (14/12/2012)
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
+ *
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og
+ * Jesper Agerbo Hansen
  */
-
 public class SongUpdateMenu extends Menu
 {
+
     private final Song song;
 
     public SongUpdateMenu(Song s)
@@ -70,27 +72,27 @@ public class SongUpdateMenu extends Menu
     {
         System.out.println("Do you wish to save changes?");
         System.out.println("Y/N");
-        
-       String answer = new Scanner(System.in).nextLine();
-       if (answer.equalsIgnoreCase("Y"))
-       {    
-       try
+
+        String answer = new Scanner(System.in).nextLine();
+        if (answer.equalsIgnoreCase("Y"))
         {
-            SongManager.getInstance().updateSong(song);
-            System.out.println("Changes saved.");
+            try
+            {
+                SongManager.getInstance().updateSong(song);
+                System.out.println("Changes saved.");
+            }
+            catch (Exception ex)
+            {
+                System.out.println("ERROR - Unable to update song.");
+            }
         }
-        catch (Exception ex)
+        else
         {
-            System.out.println("ERROR - Unable to update song.");
+            System.out.println("Changes will not be saved");
         }
-       }
-       else
-       {
-           System.out.println("Changes will not be saved");
-       }
         pause();
     }
-    
+
     @Override
     protected void headerSection()
     {
@@ -98,11 +100,11 @@ public class SongUpdateMenu extends Menu
         System.out.println(song);
         System.out.println();
     }
-    
+
     private void printSongHeader()
     {
         System.out.println();
-        System.out.println(String.format("%30s %-30s %-30s %30s",
-        "ARTIST", "TITLE", "FILENAME", "CATEGORY"));
+        System.out.println(String.format("%3d %30s %-30s %-30s %30s",
+                "ID", "ARTIST", "TITLE", "FILENAME", "CATEGORY"));
     }
 }
