@@ -3,6 +3,7 @@ package UI;
 import BE.Playlist;
 import BE.Song;
 import BLL.PlaylistManager;
+import BLL.SongManager;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -17,6 +18,7 @@ public class PlaylistMenu extends Menu
 {
 
     private PlaylistManager mgr;
+    private SongManager sMgr;
     private final Playlist playlist;
     private Playlist p;
 
@@ -34,6 +36,7 @@ public class PlaylistMenu extends Menu
         try
         {
             mgr = PlaylistManager.getInstance();
+            sMgr = SongManager.getInstance();
         }
         catch (Exception ex)
         {
@@ -193,15 +196,19 @@ public class PlaylistMenu extends Menu
 
         try
         {
-            System.out.print("Id: ");
+            System.out.print("Enter song id: ");
             int sid = new Scanner(System.in).nextInt();
 
-            Song songs = getSong(sid);
+            Song songs = sMgr.getById(sid);
 
             mgr.addSong(id, songs);
 
             System.out.println();
             System.out.println("Song added!");
+        }
+        catch (InputMismatchException ie)
+        {
+            System.out.println("ERROR - ID must be a number");
         }
         catch (Exception e)
         {
