@@ -196,8 +196,15 @@ public class PlaylistMenu extends Menu
 
         try
         {
-            System.out.print("Enter song id: ");
-            int sid = new Scanner(System.in).nextInt();
+            try
+            {
+                System.out.print("Enter song id: ");
+                int sid = new Scanner(System.in).nextInt();
+            }
+            catch (InputMismatchException ie)
+            {
+                System.out.println("ERROR - ID must be a number");
+            }
 
             Song songs = sMgr.getById(sid);
 
@@ -219,6 +226,37 @@ public class PlaylistMenu extends Menu
 
     private void removeSong()
     {
-        throw new UnsupportedOperationException("Not yet implemented");
+        clear();
+        System.out.println("Enter playlist id");
+        int id = new Scanner(System.in).nextInt();
+
+        try
+        {
+            try
+            {
+                System.out.print("Enter song id: ");
+                int sid = new Scanner(System.in).nextInt();
+            }
+            catch (InputMismatchException ie)
+            {
+                System.out.println("ERROR - ID must be a number");
+            }
+
+            Song songs = sMgr.getById(sid);
+
+            mgr.removeSong(id, songs);
+
+            System.out.println();
+            System.out.println("Song removed!");
+        }
+        catch (InputMismatchException ie)
+        {
+            System.out.println("ERROR - ID must be a number");
+        }
+        catch (Exception e)
+        {
+            System.out.println(" ERROR - " + e.getMessage());
+        }
+        pause();
     }
 }
