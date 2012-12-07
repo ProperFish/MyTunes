@@ -4,18 +4,19 @@ import BE.Playlist;
 import BE.Song;
 import BLL.PlaylistManager;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
  * MyTunes, EASV (14/12/2012)
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
+ *
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og
+ * Jesper Agerbo Hansen
  */
-
 public class PlaylistMenu extends Menu
 {
 
     private PlaylistManager mgr;
-
     private final Playlist playlist;
     private Playlist p;
 
@@ -77,7 +78,7 @@ public class PlaylistMenu extends Menu
         System.out.println(String.format("%3d %30s %-30s %-30s %30s",
                 "ID", "ARTIST", "TITLE", "FILENAME", "CATEGORY"));
     }
-    
+
     private void showAllPlaylists()
     {
         clear();
@@ -99,11 +100,11 @@ public class PlaylistMenu extends Menu
         }
         pause();
     }
-    
+
     @Override
     public String toString()
     {
-       return String.format("%-d %s %s", p.getId(), p.getName(), p.getCreated());
+        return String.format("%-d %s %s", p.getId(), p.getName(), p.getCreated());
     }
 
     private void showAllSongs()
@@ -111,7 +112,7 @@ public class PlaylistMenu extends Menu
         clear();
         System.out.println("Enter playlist name");
         String name = new Scanner(System.in, "iso-8859-1").nextLine();
-        
+
         try
         {
             ArrayList<Song> songs = mgr.getSongs(name);
@@ -164,9 +165,13 @@ public class PlaylistMenu extends Menu
         try
         {
             System.out.print("Select playlist name: ");
-            String name = new Scanner(System.in, "iso-8859-1").nextLine();
+            int id = new Scanner(System.in).nextInt();
 
-            mgr.deletePlaylist(name);
+            mgr.deletePlaylist(id);
+        }
+        catch (InputMismatchException ie)
+        {
+            System.out.println("ERROR - ID must be a number");
         }
         catch (Exception e)
         {
@@ -185,12 +190,12 @@ public class PlaylistMenu extends Menu
         clear();
         System.out.println("Enter playlist id");
         int id = new Scanner(System.in).nextInt();
-        
+
         try
         {
             System.out.print("Id: ");
             int sid = new Scanner(System.in).nextInt();
-            
+
             Song songs = getSong(sid);
 
             mgr.addSong(id, songs);
