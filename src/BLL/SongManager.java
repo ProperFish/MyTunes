@@ -12,10 +12,10 @@ import java.util.ArrayList;
 
 public class SongManager
 {
-
     private static SongManager instance = null;
     private SongAccess db = null;
-
+    
+    
     private SongManager() throws Exception
     {
         db = new SongAccess();

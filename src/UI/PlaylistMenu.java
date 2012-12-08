@@ -3,6 +3,7 @@ import BE.Playlist;
 import BE.Song;
 import BLL.PlaylistManager;
 import BLL.SongManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -109,15 +110,15 @@ public class PlaylistMenu extends Menu
     private void showAllSongs()
     {
         clear();
-        System.out.println("Enter playlist name");
-        String name = new Scanner(System.in, "iso-8859-1").nextLine();
+        System.out.println("Enter playlist ID");
+        int id = new Scanner(System.in, "iso-8859-1").nextInt();
 
         try
         {
-            ArrayList<Song> songs = mgr.getSongs(name);
+            ArrayList<Song> results = mgr.getAllSongs(id);
 
             printSongHeader();
-            for (Song s : songs)
+            for (Song s : results)
             {
                 System.out.println(s);
             }
@@ -142,9 +143,9 @@ public class PlaylistMenu extends Menu
             System.out.print("Name: ");
             String name = sc.nextLine();
 
-            Playlist playlists = new Playlist(name);
+            Playlist playlist = new Playlist(name);
 
-            playlists = mgr.addPlaylist(playlists);
+            playlist = mgr.addPlaylist(playlist);
 
             System.out.println();
             System.out.println("Playlist added!");
@@ -190,23 +191,17 @@ public class PlaylistMenu extends Menu
     private void addSong()
     {
         clear();
+        Playlist plst;
         System.out.println("Enter playlist id");
         int id = new Scanner(System.in).nextInt();
-
+        plst = mgr.getByID(id);
         Song song;
         try
         {
             System.out.print("Enter song id: ");
             int sid = new Scanner(System.in).nextInt();
-            try
-            {
-                song = sMgr.getById(sid);
-            }
-            catch (InputMismatchException ie)
-            {
-                System.out.println("ERROR - ID must be a number");
-            }
-            mgr.addSong(id, song);
+            song = sMgr.getById(sid);
+            mgr.addSong(plst, song);
             System.out.println();
             System.out.println("Song added!");
         }

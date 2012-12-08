@@ -1,6 +1,7 @@
 package DAL;
 
 import BE.Playlist;
+import BE.Song;
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import java.io.FileReader;
 import java.sql.Connection;
@@ -16,8 +17,8 @@ import java.util.Properties;
  * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
  */
 
-public class PlaylistAccess {
-
+public class PlaylistAccess 
+{
     // Instance fields.
     private SQLServerDataSource dataSource;
 
@@ -52,6 +53,38 @@ public class PlaylistAccess {
                 String name = rs.getString("Name");
 
                 Playlist result = new Playlist(ID, name);
+                results.add(result);
+            }
+            return results;
+        }
+    }
+    
+    /**
+     * Returns all songs from a given playlist, specified by ID.
+     * @param id the id of the playlist to be returned.
+     * @return the contents of the playlist that shares the ID parameter.
+     * @throws SQLException throws an SQLException and a custom error.
+     */
+    public ArrayList<Song> getAllSongs(int id) throws SQLException
+    {
+        try (Connection con = dataSource.getConnection())
+        {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(""
+                    + "SELECT PlayListSong.*, Song.*"
+                    + "FROM Song"
+                    + "WHERE PlayListID = " + id
+                    + "ORDER BY seqNo");
+            ArrayList<Song> results = new ArrayList<>();
+            while (rs.next())
+            {
+                int ID = rs.getInt("ID");
+                String title = rs.getString("Title");
+                String artist = rs.getString("Artist");
+                String category = rs.getString("Category");
+                String filename = rs.getString("Filename");
+                
+                Song result = new Song(ID, title, artist, category, filename);
                 results.add(result);
             }
             return results;
@@ -177,4 +210,24 @@ public class PlaylistAccess {
             throw new SQLException("Unable to delete playlist");
         }
     }
+    
+    public void addSong(Playlist p, Song s) throws SQLException
+    {
+        String sql = "INSERT INTO PlayListSong"
+                + "VALUES(?,?)";
+        Connection con = dataSource.getConnection();
+        PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        ps.setString(1, p.getID());
+        ps.setString(2, s.getID());
+        
+        int affectedRows = ps.executeUpdate();
+        if (affectedRows == 0)
+        {
+            throw new SQLException("Unable to add song to playlist.");
+        }
+        
+        ResultSet keys = ps.getGeneratedKeys();
+        keys.next();
+    }
+    
 }

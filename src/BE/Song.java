@@ -45,6 +45,24 @@ public class Song
     
     /**
      * Constructor for a song-object, accepting;
+     * ID, Title, Artist, Category and Filename.
+     * @param id the ID to be assigned.
+     * @param title the title to be assigned.
+     * @param artist the artist to be assigned.
+     * @param category the category to be assigned.
+     * @param filename  the filename to be assigned.
+     */
+    public Song(int id, String title, String artist, String category, String filename)
+    {
+        this.id = id;
+        this.artist = artist;
+        this.title = title;
+        this.category = category;
+        this.filename = filename;
+    }
+    
+    /**
+     * Constructor for a song-object, accepting;
      * ID, Title, Artist, Category, Filename and Duration.
      * @param id, title, artist, category, filename and duration.
      */

@@ -1,6 +1,7 @@
 package BLL;
 
 import BE.Playlist;
+import BE.Song;
 import DAL.PlaylistAccess;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,12 +31,17 @@ public class PlaylistManager
         return instance;
     }
 
+    public ArrayList<Song> getAllSongs(int id) throws SQLException
+    {
+        return db.getAllSongs(id);
+    }
+    
     public ArrayList<Playlist> getAll() throws SQLException
     {
         return db.getAll();
     }
 
-    public Playlist getById(int playlistID) throws SQLException
+    public Playlist getByID(int playlistID) throws SQLException
     {
         return db.getByID(playlistID);
     }
@@ -58,5 +64,10 @@ public class PlaylistManager
     public void deletePlaylist(int id) throws SQLException
     {
         db.delete(id);
+    }
+    
+    public void addSong(Playlist plst, Song song) throws SQLException
+    {
+        db.addSong(plst, song);
     }
 }
