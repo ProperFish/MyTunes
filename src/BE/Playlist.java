@@ -17,6 +17,16 @@ public class Playlist
      * ID and an already existing playlist-object..
      * @param id and playlist object.
      */
+    
+    /**
+     * Creates a new playlist from a given name.
+     * @param name the name to be assigned to the playlist.
+     */
+    public Playlist(String name)
+    {
+        this.name = name;
+    }
+    
     public Playlist(int id, Playlist p)
     {
         this.id = p.id;
