@@ -1,4 +1,5 @@
 package UI;
+
 import BE.Playlist;
 import BE.Song;
 import BLL.PlaylistManager;
@@ -7,13 +8,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * MyTunes, EASV (14/12/2012)
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
+ *
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og
+ * Jesper Agerbo Hansen
  */
 public class PlaylistMenu extends Menu
 {
+
     private PlaylistManager mgr;
     private SongManager sMgr;
     private final Playlist playlist;
@@ -186,18 +192,18 @@ public class PlaylistMenu extends Menu
     }
 
     /**
-     * 
+     *
      */
     private void addSong()
     {
         clear();
         Playlist plst;
-        System.out.println("Enter playlist id");
-        int id = new Scanner(System.in).nextInt();
-        plst = mgr.getByID(id);
         Song song;
         try
         {
+            System.out.println("Enter playlist id");
+            int id = new Scanner(System.in).nextInt();
+            plst = mgr.getByID(id);
             System.out.print("Enter song id: ");
             int sid = new Scanner(System.in).nextInt();
             song = sMgr.getById(sid);
@@ -222,27 +228,17 @@ public class PlaylistMenu extends Menu
     private void removeSong()
     {
         clear();
+
+        Playlist pl = null;
+        Song song = null;
         System.out.println("Enter playlist id");
         int id = new Scanner(System.in).nextInt();
-
-        Song song;
+        System.out.print("Enter song id: ");
+        int sid = new Scanner(System.in).nextInt();
         try
         {
-            System.out.print("Enter song id: ");
-            int sid = new Scanner(System.in).nextInt();
-            try
-            {
-                song = sMgr.getById(sid);
-            }
-            catch (InputMismatchException ie)
-            {
-                System.out.println("ERROR - ID must be a number");
-            }
-
-            mgr.removeSong(id, song);
-
-            System.out.println();
-            System.out.println("Song removed!");
+            pl = mgr.getByID(id);
+            song = sMgr.getById(sid);
         }
         catch (InputMismatchException ie)
         {
@@ -252,6 +248,20 @@ public class PlaylistMenu extends Menu
         {
             System.out.println(" ERROR - " + e.getMessage());
         }
+        try
+        {
+
+            mgr.removeSong(pl, song);
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(" ERROR - " + ex.getMessage());
+        }
+
+        System.out.println();
+        System.out.println("Song removed!");
+
+
         pause();
     }
 }

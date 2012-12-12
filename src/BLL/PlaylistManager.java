@@ -70,4 +70,9 @@ public class PlaylistManager
     {
         db.addSong(plst, song);
     }
+    
+    public void removeSong(Playlist plst, Song song) throws SQLException
+    {
+        db.removeSong(plst, song);
+    }
 }

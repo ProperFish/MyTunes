@@ -217,8 +217,8 @@ public class PlaylistAccess
                 + "VALUES(?,?)";
         Connection con = dataSource.getConnection();
         PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-        ps.setString(1, p.getID());
-        ps.setString(2, s.getID());
+        ps.setInt(1, p.getId());
+        ps.setString(2, s.getTitle());
         
         int affectedRows = ps.executeUpdate();
         if (affectedRows == 0)
@@ -230,4 +230,20 @@ public class PlaylistAccess
         keys.next();
     }
     
+    public void removeSong(Playlist p, Song s) throws SQLException
+    {
+        String sql = "DELETE from PlayListSong"
+                + "VALUES(?,?)";
+        Connection con = dataSource.getConnection();
+        PreparedStatement ps = con.prepareStatement(sql);
+        
+        ps.setInt(1, p.getId());
+        ps.setInt(2, s.getId());
+        
+        int affectedRows = ps.executeUpdate();
+        if (affectedRows == 0)
+        {
+            throw new SQLException("Unable to delete song from playlist");
+        }
+    }
 }

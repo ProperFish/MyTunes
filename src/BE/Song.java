@@ -80,7 +80,7 @@ public class Song
      * Returns the ID of a song.
      * @return the id.
      */
-    public int getId()
+    public int getID()
     {
         return id;
     }
