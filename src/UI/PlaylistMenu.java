@@ -107,11 +107,11 @@ public class PlaylistMenu extends Menu
         pause();
     }
 
-    @Override
-    public String toString()
-    {
-        return String.format("%-d %s %s", p.getId(), p.getName(), p.getCreated());
-    }
+//    @Override
+//    public String toString()
+//    {
+//        return String.format("%d %s %s", p.getId(), p.getName(), p.getCreated());
+//    }
 
     private void showAllSongs()
     {

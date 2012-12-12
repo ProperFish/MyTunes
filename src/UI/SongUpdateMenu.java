@@ -104,7 +104,7 @@ public class SongUpdateMenu extends Menu
     private void printSongHeader()
     {
         System.out.println();
-        System.out.println(String.format("%3d %30s %-30s %-30s %30s",
+        System.out.println(String.format("%3s %30s %-30s %-30s %30s",
                 "ID", "ARTIST", "TITLE", "FILENAME", "CATEGORY"));
     }
 }

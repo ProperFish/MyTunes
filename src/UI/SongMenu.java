@@ -67,8 +67,8 @@ public class SongMenu extends Menu
     private void printSongHeader()
     {
         System.out.println();
-        System.out.println(String.format("%3d %30s %-30s %-30s %30s",
-                "ID", "ARTIST", "TITLE", "FILENAME", "CATEGORY"));
+        System.out.println(String.format("%-30s %15s %10s %-10s %-3s",
+                "TITLE", "ARTIST", "CATEGORY", "DURATION", "ID"));
     }
 
     private void listAll()
@@ -97,7 +97,7 @@ public class SongMenu extends Menu
     private void search()
     {
         clear();
-        System.out.println("Show Songs by Artist:");
+        System.out.println("Show Songs by Artist or Title:");
         System.out.println();
 
         System.out.print("Enter search: ");
@@ -136,6 +136,10 @@ public class SongMenu extends Menu
 
             System.out.print("Artist: ");
             String artist = sc.nextLine();
+            
+            System.out.print("Duration: ");
+            int duration = sc.nextInt();
+            sc.nextLine();
 
             System.out.print("Filename: ");
             String filename = sc.nextLine();
@@ -143,7 +147,7 @@ public class SongMenu extends Menu
             System.out.print("Category: ");
             String category = sc.nextLine();
 
-            Song songs = new Song(title, artist, filename, category);
+            Song songs = new Song(title, artist, duration, filename, category);
 
             songs = mgr.addSong(songs);
 
@@ -164,13 +168,13 @@ public class SongMenu extends Menu
         System.out.println("");
         try
         {
-            System.out.print("Select song title: ");
+            System.out.print("Select song id: ");
             int id = new Scanner(System.in).nextInt();
-            Song songs = mgr.getById(id);
+            Song song = mgr.getById(id);
 
-            if (songs != null)
+            if (song != null)
             {
-                new SongUpdateMenu(songs).run();
+                new SongUpdateMenu(song).run();
             }
             else
             {

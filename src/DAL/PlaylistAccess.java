@@ -14,15 +14,18 @@ import java.util.Properties;
 
 /**
  * MyTunes, EASV (14/12/2012)
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
+ *
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og
+ * Jesper Agerbo Hansen
  */
-
-public class PlaylistAccess 
+public class PlaylistAccess
 {
     // Instance fields.
+
     private SQLServerDataSource dataSource;
 
-    public PlaylistAccess() throws Exception {
+    public PlaylistAccess() throws Exception
+    {
         Properties props = new Properties();
         props.load(new FileReader("MyTunes.cfg"));
         dataSource = new SQLServerDataSource();
@@ -35,20 +38,23 @@ public class PlaylistAccess
 
     /**
      * Returns an arraylist containing all playlists on the server.
+     *
      * @return an arraylist of all playlists.
      * @throws SQLException
      */
-    public ArrayList<Playlist> getAll() throws SQLException 
+    public ArrayList<Playlist> getAll() throws SQLException
     {
-        try (Connection con = dataSource.getConnection()) {
+        try (Connection con = dataSource.getConnection())
+        {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(""
-                    + "SELECT Playlist.ID, Playlist.Name"
-                    + "FROM Playlist"
+                    + "SELECT Playlist.ID, Playlist.Name "
+                    + "FROM Playlist "
                     + "ORDER BY Name");
 
             ArrayList<Playlist> results = new ArrayList<>();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 int ID = rs.getInt("ID");
                 String name = rs.getString("Name");
 
@@ -58,9 +64,10 @@ public class PlaylistAccess
             return results;
         }
     }
-    
+
     /**
      * Returns all songs from a given playlist, specified by ID.
+     *
      * @param id the id of the playlist to be returned.
      * @return the contents of the playlist that shares the ID parameter.
      * @throws SQLException throws an SQLException and a custom error.
@@ -83,7 +90,7 @@ public class PlaylistAccess
                 String artist = rs.getString("Artist");
                 String category = rs.getString("Category");
                 String filename = rs.getString("Filename");
-                
+
                 Song result = new Song(ID, title, artist, category, filename);
                 results.add(result);
             }
@@ -93,13 +100,14 @@ public class PlaylistAccess
 
     /**
      * Returns a playlist by fetching a matching ID on the server.
+     *
      * @param id the ID of the playlist to be searched for.
      * @return a playlist-object.
      * @throws SQLException
      */
-    public Playlist getByID(int id) throws SQLException 
+    public Playlist getByID(int id) throws SQLException
     {
-        try (Connection con = dataSource.getConnection()) 
+        try (Connection con = dataSource.getConnection())
         {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(""
@@ -118,13 +126,16 @@ public class PlaylistAccess
 
     /**
      * Gets all playlists matching the search-term.
+     *
      * @param name the name to be searched for.
-     * @return an arraylist containing all playlists that contains the search-term.
-     * @throws SQLException 
+     * @return an arraylist containing all playlists that contains the
+     * search-term.
+     * @throws SQLException
      */
-    public ArrayList<Playlist> getByName(String name) throws SQLException 
+    public ArrayList<Playlist> getByName(String name) throws SQLException
     {
-        try (Connection con = dataSource.getConnection()) {
+        try (Connection con = dataSource.getConnection())
+        {
             String sql = (""
                     + "SELECT Playlist.ID, Playlist.Name"
                     + "FROM Playlist"
@@ -135,7 +146,8 @@ public class PlaylistAccess
             ResultSet rs = ps.executeQuery();
 
             ArrayList<Playlist> results = new ArrayList<>();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 int ID = rs.getInt("ID");
                 String pname = rs.getString("Name");
 
@@ -148,11 +160,12 @@ public class PlaylistAccess
 
     /**
      * Puts a new playlist-object on the server.
+     *
      * @param p a given playlist-object.
      * @return the newly created playlist object.
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public Playlist insert(Playlist p) throws SQLException 
+    public Playlist insert(Playlist p) throws SQLException
     {
         String sql = ""
                 + "INSERT INTO Playlist"
@@ -163,7 +176,7 @@ public class PlaylistAccess
         ps.setString(1, p.getName());
 
         int affectedRows = ps.executeUpdate();
-        if (affectedRows == 0) 
+        if (affectedRows == 0)
         {
             throw new SQLException("Unable to insert playlist.");
         }
@@ -177,27 +190,30 @@ public class PlaylistAccess
 
     /**
      * Updates a playlist that is selected by ID.
+     *
      * @param p the playlist to be updated.
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public void update(Playlist p) throws SQLException 
+    public void update(Playlist p) throws SQLException
     {
         String sql = "UPDATE Playlist SET Name = ?";
         Connection con = dataSource.getConnection();
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, p.getName());
         int affectedRows = ps.executeUpdate();
-        if (affectedRows == 0) {
+        if (affectedRows == 0)
+        {
             throw new SQLException("Unable to update playlist.");
         }
     }
 
     /**
      * Deletes a playlist with a given ID from the server.
+     *
      * @param id the ID of the playlist for deletion.
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public void delete(int id) throws SQLException 
+    public void delete(int id) throws SQLException
     {
         String sql = "DELETE FROM Playlist WHERE Id = " + id;
 
@@ -206,11 +222,12 @@ public class PlaylistAccess
         PreparedStatement ps = con.prepareStatement(sql);
 
         int affectedRows = ps.executeUpdate();
-        if (affectedRows == 0) {
+        if (affectedRows == 0)
+        {
             throw new SQLException("Unable to delete playlist");
         }
     }
-    
+
     public void addSong(Playlist p, Song s) throws SQLException
     {
         String sql = "INSERT INTO PlayListSong"
@@ -219,27 +236,27 @@ public class PlaylistAccess
         PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setInt(1, p.getId());
         ps.setString(2, s.getTitle());
-        
+
         int affectedRows = ps.executeUpdate();
         if (affectedRows == 0)
         {
             throw new SQLException("Unable to add song to playlist.");
         }
-        
+
         ResultSet keys = ps.getGeneratedKeys();
         keys.next();
     }
-    
+
     public void removeSong(Playlist p, Song s) throws SQLException
     {
         String sql = "DELETE from PlayListSong"
                 + "VALUES(?,?)";
         Connection con = dataSource.getConnection();
         PreparedStatement ps = con.prepareStatement(sql);
-        
+
         ps.setInt(1, p.getId());
         ps.setInt(2, s.getId());
-        
+
         int affectedRows = ps.executeUpdate();
         if (affectedRows == 0)
         {

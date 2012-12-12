@@ -43,6 +43,15 @@ public class Song
         this.filename = filename;
     }
     
+        public Song(String title, String artist, int duration, String filename, String category)
+    {
+        this.title = title;
+        this.artist = artist;
+        this.duration = duration;
+        this.filename = filename;
+        this.category = category;
+    }
+    
     /**
      * Constructor for a song-object, accepting;
      * ID, Title, Artist, Category and Filename.
@@ -80,7 +89,7 @@ public class Song
      * Returns the ID of a song.
      * @return the id.
      */
-    public int getID()
+    public int getId()
     {
         return id;
     }
@@ -168,18 +177,18 @@ public class Song
     
     /**
      * Sets the filename of a song.
-     * @param depNum the filename to set.
+     * @param filename the filename to set.
      */
     public void setFilename(String filename)
     {
         this.filename = filename;
     }
 
-//    @Override
-//    public String toString()
-//    {
-//        //int min = duration/60;
-//        //int sec = duration-min*60;
-//        return String.format("%3d %-30s %-30s %4d %2d", title, artist, category, duration, id);
-//    }
+    @Override
+    public String toString()
+    {
+        //int min = duration/60;
+        //int sec = duration-min*60;
+        return String.format("%-30s %15s %10s %-10d %-3d", getTitle(), getArtist(), getCategory(), getDuration(), getId());
+    }
 }

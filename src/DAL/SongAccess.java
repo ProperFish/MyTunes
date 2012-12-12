@@ -48,10 +48,10 @@ public class SongAccess
         {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(""
-                    + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category'"
-                    + "FROM Song"
-                    + "inner join Artist on Song.ArtistID = Artist.ID"
-                    + "inner join Category on Song.CategoryID = Category.ID"
+                    + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category' "
+                    + "FROM Song "
+                    + "inner join Artist on Song.ArtistID = Artist.ID "
+                    + "inner join Category on Song.CategoryID = Category.ID "
                     + "ORDER BY Song.Title");
 
             ArrayList<Song> songs = new ArrayList<>();
@@ -83,12 +83,12 @@ public class SongAccess
         {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(""
-                    + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category'"
-                    + "FROM Song"
-                    + "inner join Artist on Song.ArtistID = Artist.ID"
-                    + "inner join Category on Song.CategoryID = Category.ID"
+                    + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category' "
+                    + "FROM Song "
+                    + "inner join Artist on Song.ArtistID = Artist.ID " 
+                    + "inner join Category on Song.CategoryID = Category.ID "
                     + "WHERE Song.ID = " + id
-                    + "ORDER BY Song.Title");
+                    + " ORDER BY Song.Title");
             Song song;
             rs.next();
             int ID = rs.getInt("ID");
@@ -113,11 +113,11 @@ public class SongAccess
         try (Connection con = dataSource.getConnection())
         {
             String sql = (""
-                    + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category'"
-                    + "FROM Song"
-                    + "INNER JOIN Artist on Song.ArtistID = Artist.ID"
-                    + "INNER JOIN Category on Song.CategoryID = Category.ID"
-                    + "WHERE Title LIKE ? OR Artist LIKE ?"
+                    + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category' "
+                    + "FROM Song "
+                    + "INNER JOIN Artist on Song.ArtistID = Artist.ID "
+                    + "INNER JOIN Category on Song.CategoryID = Category.ID "
+                    + "WHERE Title LIKE ? "
                     + "ORDER BY Song.Title");
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, query);
@@ -155,8 +155,7 @@ public class SongAccess
         Connection con = dataSource.getConnection();
         PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, s.getTitle());
-        ps.setString(2, s.getFilename());
-        
+        ps.setString(2, s.getFilename());        
         ps.setInt(3, s.getDuration());
         ps.setString(4, s.getArtist());
         ps.setString(5, s.getCategory());

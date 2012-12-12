@@ -93,6 +93,12 @@ public class Playlist
         return created;
     }
     
+    @Override
+    public String toString()
+    {
+        return String.format("%d %s %s", getId(), getName(), getCreated());
+    }
+    
 //    @Override
 //    public String toString()
 //    {
