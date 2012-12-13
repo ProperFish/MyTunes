@@ -117,10 +117,11 @@ public class SongAccess
                     + "FROM Song "
                     + "INNER JOIN Artist on Song.ArtistID = Artist.ID "
                     + "INNER JOIN Category on Song.CategoryID = Category.ID "
-                    + "WHERE Title LIKE ? "
+                    + "WHERE Title LIKE ? OR Artist.Name LIKE ? "
                     + "ORDER BY Song.Title");
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, query);
+            ps.setString(2, query);
             ResultSet rs = ps.executeQuery();
             ArrayList<Song> results = new ArrayList<>();
             while (rs.next())
@@ -182,14 +183,40 @@ public class SongAccess
      */
     public void update(Song s) throws SQLException
     {
-        String sql = "UPDATE Song SET Title = ?, Artist = ?, Category = ? , Duration = ? WHERE Id = ?";
-
         Connection con = dataSource.getConnection();
+        
+        String ttsql = "SELECT Artis.ID "
+                + "where Name like ?";
+        
+        PreparedStatement ttps = con.prepareStatement(ttsql);
+        
+        ttps.setString(1,s.getArtist());
+        ResultSet trs = ttps.executeQuery();
+        trs.next();
+        
+                
+        
+        String tsql = "Select Artist.ID'artist', Category.ID'cat'"
+                + "From Category, Artist "
+                + "where Artist.Name = ? and Category.Category = ?";
+        
+        
+        PreparedStatement tps = con.prepareStatement(tsql);
+        
+        tps.setString(1, s.getArtist());
+        tps.setString(2, s.getCategory());
+        
+        ResultSet rs = tps.executeQuery();
+        rs.next();
+        int artistID = rs.getInt("artist");
+        int catID = rs.getInt("cat");
+        
+        String sql = "UPDATE Song SET Title = ?, ArtistID = ?, CategoryID = ? , Duration = ? WHERE Id = ?";
 
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, s.getTitle());
-        ps.setString(2, s.getArtist());
-        ps.setString(3, s.getCategory());
+        ps.setInt(2, artistID);
+        ps.setInt(3, catID);
         ps.setInt(4, s.getDuration());
 
         int affectedRows = ps.executeUpdate();
@@ -206,13 +233,14 @@ public class SongAccess
      */
     public void delete(int id) throws SQLException
     {
-        String sql = "DELETE FROM Song WHERE Id = ?";
+        String sql = " DELETE FROM PlaylistSong WHERE SongID = ?"
+                + " DELETE FROM Song WHERE Id = ?";
 
         Connection con = dataSource.getConnection();
 
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, id);
-
+        ps.setInt(2, id);
         int affectedRows = ps.executeUpdate();
         if (affectedRows == 0)
         {

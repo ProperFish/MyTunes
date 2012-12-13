@@ -67,7 +67,7 @@ public class SongMenu extends Menu
     private void printSongHeader()
     {
         System.out.println();
-        System.out.println(String.format("%-30s %15s %10s %-10s %-3s",
+        System.out.println(String.format("%-40s %15s %10s %-10s %-3s",
                 "TITLE", "ARTIST", "CATEGORY", "DURATION", "ID"));
     }
 
@@ -147,9 +147,9 @@ public class SongMenu extends Menu
             System.out.print("Category: ");
             String category = sc.nextLine();
 
-            Song songs = new Song(title, artist, duration, filename, category);
+            Song song = new Song(title, artist, duration, filename, category);
 
-            songs = mgr.addSong(songs);
+            song = mgr.addSong(song);
 
             System.out.println();
             System.out.println("Song added!");

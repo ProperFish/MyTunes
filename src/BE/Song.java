@@ -189,6 +189,6 @@ public class Song
     {
         //int min = duration/60;
         //int sec = duration-min*60;
-        return String.format("%-30s %15s %10s %-10d %-3d", getTitle(), getArtist(), getCategory(), getDuration(), getId());
+        return String.format("%-40s %15s %10s %-10d %-3d", getTitle(), getArtist(), getCategory(), getDuration(), getId());
     }
 }
