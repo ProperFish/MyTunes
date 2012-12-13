@@ -149,14 +149,15 @@ public class SongMenu extends Menu
 
             Song song = new Song(title, artist, duration, filename, category);
 
-            song = mgr.addSong(song);
+            mgr.addSong(song);
 
             System.out.println();
             System.out.println("Song added!");
         }
         catch (Exception e)
         {
-            System.out.println("ERROR - " + e.getMessage());
+            e.printStackTrace();
+//            System.out.println("ERROR - " + e.getMessage());
         }
         pause();
     }

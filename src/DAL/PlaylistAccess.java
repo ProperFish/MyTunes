@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.sql.Date;
 
 /**
  * MyTunes, EASV (14/12/2012)
@@ -48,7 +49,7 @@ public class PlaylistAccess
         {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(""
-                    + "SELECT Playlist.ID, Playlist.Name "
+                    + "SELECT Playlist.ID, Playlist.Name, Playlist.Created "
                     + "FROM Playlist "
                     + "ORDER BY Name");
 
@@ -57,6 +58,7 @@ public class PlaylistAccess
             {
                 int ID = rs.getInt("ID");
                 String name = rs.getString("Name");
+//                java.sql.Date = rs.getDate("Created");
 
                 Playlist result = new Playlist(ID, name);
                 results.add(result);

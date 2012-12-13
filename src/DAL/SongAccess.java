@@ -13,16 +13,19 @@ import java.util.Properties;
 
 /**
  * MyTunes, EASV (14/12/2012)
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
+ *
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og
+ * Jesper Agerbo Hansen
  */
-
 public class SongAccess
 {
     // Instance fields.
+
     private SQLServerDataSource dataSource;
 
     /**
      * Establishes a connection to the server from the "MyTunes.cfg" file.
+     *
      * @throws Exception throws SQLExceptions and a custom error.
      */
     public SongAccess() throws Exception
@@ -39,6 +42,7 @@ public class SongAccess
 
     /**
      * Returns an ArrayList containing all songs from the server.
+     *
      * @return ArrayList containing all songs.
      * @throws SQLException throws SQLExceptions and a custom error.
      */
@@ -73,6 +77,7 @@ public class SongAccess
 
     /**
      * Gets information from a song with a given ID.
+     *
      * @param id the id of the song to be "downloaded".
      * @return returns all the information of the given song-id.
      * @throws SQLException throws SQLExceptions and a custom error.
@@ -85,7 +90,7 @@ public class SongAccess
             ResultSet rs = st.executeQuery(""
                     + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category' "
                     + "FROM Song "
-                    + "inner join Artist on Song.ArtistID = Artist.ID " 
+                    + "inner join Artist on Song.ArtistID = Artist.ID "
                     + "inner join Category on Song.CategoryID = Category.ID "
                     + "WHERE Song.ID = " + id
                     + " ORDER BY Song.Title");
@@ -104,6 +109,7 @@ public class SongAccess
 
     /**
      * Gets all song-objects matching the search-string.
+     *
      * @param query the search-string to be matched on the server.
      * @return all songs matching the search-string.
      * @throws SQLException throws SQLExceptions and a custom error.
@@ -141,27 +147,61 @@ public class SongAccess
 
     /**
      * Creates a new song on the server from a given song-object locally.
+     *
      * @param s the song object to be uploaded.
      * @return returns the new song object with a correct ID from the server.
      * @throws SQLException throws SQLExceptions and a custom error.
      */
     public Song insert(Song s) throws SQLException
     {
-        String sql = ""
-                + "INSERT INTO Song (title,artistID,categoryID,filename,duration)"
-                + "SELECT ?, artist.ID'AID',category.ID'CID',?,?"
-                + "FROM artist,category"
-                + "WHERE artist.name like ? and category.category like ?";
-                
         Connection con = dataSource.getConnection();
+        String ttsql = "SELECT Artist.ID "
+                + "FROM Artist "
+                + "where Name like ?";
+
+        PreparedStatement ttps = con.prepareStatement(ttsql);
+
+        ttps.setString(1, s.getArtist());
+        ResultSet trs = ttps.executeQuery();
+        if (!(trs.next()))
+        {
+            String tttsql = "INSERT INTO Artist Values(?)";
+            PreparedStatement nyArtistPS = con.prepareStatement(tttsql);
+            nyArtistPS.setString(1, s.getArtist());
+            nyArtistPS.executeUpdate();
+        }
+
+        String tttsql = "SELECT Category.ID "
+                + "FROM Category "
+                + "where Category like ?";
+
+        PreparedStatement tttps = con.prepareStatement(tttsql);
+
+        tttps.setString(1, s.getCategory());
+        ResultSet ttrs = tttps.executeQuery();
+        if (!(ttrs.next()))
+        {
+            String ttttsql = "INSERT INTO Category Values(?)";
+            PreparedStatement nyCategoryPS = con.prepareStatement(ttttsql);
+            nyCategoryPS.setString(1, s.getCategory());
+            nyCategoryPS.executeUpdate();
+        }
+
+        String sql = ""
+                + "INSERT INTO Song (title,artistID,categoryID,filename,duration) "
+                + "SELECT ?, artist.ID'AID',category.ID'CID',?,? "
+                + "FROM artist,category "
+                + "WHERE artist.name like ? and category.category like ?";
+
+
         PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, s.getTitle());
-        ps.setString(2, s.getFilename());        
+        ps.setString(2, s.getFilename());
         ps.setInt(3, s.getDuration());
         ps.setString(4, s.getArtist());
         ps.setString(5, s.getCategory());
-        
-        
+
+
 
         int affectedRows = ps.executeUpdate();
         if (affectedRows == 0)
@@ -178,56 +218,67 @@ public class SongAccess
 
     /**
      * Updates a song-object on the server by handling changes locally first.
+     *
      * @param s the local song-object.
      * @throws SQLException throws SQLExceptions and a custom error.
      */
     public void update(Song s) throws SQLException
     {
-        Connection con = dataSource.getConnection();
-        
-        String ttsql = "SELECT Artis.ID "
-                + "where Name like ?";
-        
-        PreparedStatement ttps = con.prepareStatement(ttsql);
-        
-        ttps.setString(1,s.getArtist());
-        ResultSet trs = ttps.executeQuery();
-        trs.next();
-        
-                
-        
-        String tsql = "Select Artist.ID'artist', Category.ID'cat'"
-                + "From Category, Artist "
-                + "where Artist.Name = ? and Category.Category = ?";
-        
-        
-        PreparedStatement tps = con.prepareStatement(tsql);
-        
-        tps.setString(1, s.getArtist());
-        tps.setString(2, s.getCategory());
-        
-        ResultSet rs = tps.executeQuery();
-        rs.next();
-        int artistID = rs.getInt("artist");
-        int catID = rs.getInt("cat");
-        
-        String sql = "UPDATE Song SET Title = ?, ArtistID = ?, CategoryID = ? , Duration = ? WHERE Id = ?";
-
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, s.getTitle());
-        ps.setInt(2, artistID);
-        ps.setInt(3, catID);
-        ps.setInt(4, s.getDuration());
-
-        int affectedRows = ps.executeUpdate();
-        if (affectedRows == 0)
+        try (Connection con = dataSource.getConnection())
         {
-            throw new SQLException("Unable to update song");
+            String ttsql = "SELECT Artist.ID "
+                    + "FROM Artist "
+                    + "where Name like ?";
+
+            PreparedStatement ttps = con.prepareStatement(ttsql);
+
+            ttps.setString(1, s.getArtist());
+            ResultSet trs = ttps.executeQuery();
+            if (!(trs.next()))
+            {
+                String tttsql = "INSERT INTO Artist Values(?)";
+                PreparedStatement nyArtistPS = con.prepareStatement(tttsql);
+                nyArtistPS.setString(1, s.getArtist());
+                nyArtistPS.executeUpdate();
+            }
+
+
+            String tsql = "Select Artist.ID'artist', Category.ID'cat'"
+                    + "From Category, Artist "
+                    + "where Artist.Name = ? and Category.Category = ?";
+
+
+            PreparedStatement tps = con.prepareStatement(tsql);
+
+            tps.setString(1, s.getArtist());
+            tps.setString(2, s.getCategory());
+
+            ResultSet rs = tps.executeQuery();
+            rs.next();
+            int artistID = rs.getInt("artist");
+            int catID = rs.getInt("cat");
+
+            String sql = "UPDATE Song SET Title = ?, ArtistID = ?, CategoryID = ? , Duration = ? WHERE Id = ?";
+
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, s.getTitle());
+            ps.setInt(2, artistID);
+            ps.setInt(3, catID);
+            ps.setInt(4, s.getDuration());
+            ps.setInt(5, s.getId());
+
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows == 0)
+            {
+                throw new SQLException("Unable to update song");
+
+            }
         }
     }
 
     /**
      * Deletes a song on the server, specified by ID.
+     *
      * @param id the ID of a song to be deleted.
      * @throws SQLException throws SQLExceptions and a custom error.
      */
