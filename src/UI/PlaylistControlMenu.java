@@ -17,7 +17,9 @@ public class PlaylistControlMenu extends Menu
 
     public PlaylistControlMenu(Playlist pl)
     {
-        super("Controls:",
+       super("Controls:",
+                "Play",
+                "Stop",
                 "Pause",
                 "Resume",
                 "What's playing?");
@@ -29,13 +31,18 @@ public class PlaylistControlMenu extends Menu
     {
          switch (option)
         {
-            case 1:
-                pausePlaylist();
+           case 1:
+                playPlaylist();
                 break;
             case 2:
+                stopPlaylist();
+            case 3:
+                pausePlaylist();
+                break;
+            case 4:
                 resumePlaylist();
                 break;
-            case 3:
+            case 5:
                 nowPlaying();
                 break;
             case 0:
@@ -43,7 +50,12 @@ public class PlaylistControlMenu extends Menu
                 break;
         }
     }
-
+    
+    private void playPlaylist()
+    {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+    
     private void pausePlaylist()
     {
         throw new UnsupportedOperationException("Not yet implemented");
@@ -63,4 +75,6 @@ public class PlaylistControlMenu extends Menu
     {
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+
 }
