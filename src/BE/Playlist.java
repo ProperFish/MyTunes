@@ -1,8 +1,6 @@
 package BE;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.sql.Timestamp;
 
 /**
  * MyTunes, EASV (14/12/2012)
@@ -43,11 +41,11 @@ public class Playlist
      * ID and Name.
      * @param id and name.
      */
-    public Playlist(int id, String name, Date date)
+    public Playlist(int id, String name, java.sql.Timestamp timestamp)
     {
         this.name = name;
         this.id = id;
-        this.created = date.toString();
+        this.created = timestamp.toString();
     }
     
     public Playlist(int id, String name)

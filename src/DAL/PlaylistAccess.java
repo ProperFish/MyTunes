@@ -9,9 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.sql.Date;
 
 /**
  * MyTunes, EASV (14/12/2012)
@@ -58,9 +59,9 @@ public class PlaylistAccess
             {
                 int ID = rs.getInt("ID");
                 String name = rs.getString("Name");
-                Date date = rs.getDate("Created");
+                String timestamp = new SimpleDateFormat("dd/MM/yyyy").format(rs.getDate("Created"));
 
-                Playlist result = new Playlist(ID, name, date);
+                Playlist result = new Playlist(ID, name, timestamp);
                 results.add(result);
             }
             return results;
