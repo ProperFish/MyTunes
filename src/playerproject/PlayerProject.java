@@ -18,7 +18,7 @@ public class PlayerProject
      */
     public static void main(String[] args) throws Exception
     {
-        MyTunesPlayer p = new MyTunesPlayer("01-bryan_adams_-_tonight_we_have_the_stars.mp3");
+        MyTunesPlayer p = new MyTunesPlayer("01 - Thunderstruck.mp3");
         p.play();
         
         System.out.print("Press ENTER to pause...");
