@@ -19,7 +19,7 @@ public class PlayerProject
      */
     public static void main(String[] args) throws Exception
     {
-        MyTunesPlayer p = new MyTunesPlayer("01 - Thunderstruck.mp3");
+        MyTunesPlayer p = new MyTunesPlayer("C:\\Users\\LarsVad\\Music\\Amanda Palmer\\Amanda Palmer Goes Down Under\\02 - Australia.mp3");
         p.play();
         
         System.out.print("Press ENTER to pause...");
