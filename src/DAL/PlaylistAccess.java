@@ -58,9 +58,9 @@ public class PlaylistAccess
             {
                 int ID = rs.getInt("ID");
                 String name = rs.getString("Name");
-//                java.sql.Date = rs.getDate("Created");
+                Date date = rs.getDate("Created");
 
-                Playlist result = new Playlist(ID, name);
+                Playlist result = new Playlist(ID, name, date);
                 results.add(result);
             }
             return results;
@@ -80,10 +80,12 @@ public class PlaylistAccess
         {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(""
-                    + "SELECT PlayListSong.*, Song.*"
-                    + "FROM Song"
-                    + "WHERE PlayListID = " + id
-                    + "ORDER BY seqNo");
+                    + "SELECT PlaylistSong.*, Song.*,Artist.Name'Artist', Category.Category'Category' "
+                    + "FROM PlaylistSong inner join Song "
+                    + "ON PlaylistID = " + id +" AND Song.ID = PlaylistSong.SongID "
+                    + "INNER JOIN Artist on Song.ArtistID = Artist.ID "
+                    + "INNER JOIN Category on Song.CategoryID = Category.ID "
+                    + " ORDER BY seqNo");
             ArrayList<Song> results = new ArrayList<>();
             while (rs.next())
             {
@@ -92,8 +94,9 @@ public class PlaylistAccess
                 String artist = rs.getString("Artist");
                 String category = rs.getString("Category");
                 String filename = rs.getString("Filename");
+                int duration = rs.getInt("Duration");
 
-                Song result = new Song(ID, title, artist, category, filename);
+                Song result = new Song(ID, title, artist, category, filename,duration);
                 results.add(result);
             }
             return results;

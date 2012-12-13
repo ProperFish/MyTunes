@@ -1,5 +1,9 @@
 package BE;
 
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 /**
  * MyTunes, EASV (14/12/2012)
  * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
@@ -39,6 +43,13 @@ public class Playlist
      * ID and Name.
      * @param id and name.
      */
+    public Playlist(int id, String name, Date date)
+    {
+        this.name = name;
+        this.id = id;
+        this.created = date.toString();
+    }
+    
     public Playlist(int id, String name)
     {
         this.name = name;
