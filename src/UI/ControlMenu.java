@@ -91,7 +91,7 @@ public class ControlMenu extends Menu
             }
             else
             {
-                System.out.println("ERROR - Song not found.");
+                System.out.println("ERROR - Playlist not found.");
             }
         }
         catch (InputMismatchException ie)
