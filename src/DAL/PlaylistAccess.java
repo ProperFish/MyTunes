@@ -117,10 +117,10 @@ public class PlaylistAccess
         {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(""
-                    + "SELECT Playlist.ID, Playlist.Name"
-                    + "FROM Playlist"
-                    + "WHERE ID = " + id
-                    + "ORDER BY Name");
+                    + "SELECT Playlist.ID, Playlist.Name "
+                    + "FROM Playlist "
+                    + "WHERE Playlist.ID = " + id
+                    + " ORDER BY Name");
             Playlist result;
             rs.next();
             int ID = rs.getInt("ID");
@@ -239,12 +239,26 @@ public class PlaylistAccess
 
     public void addSong(Playlist p, Song s) throws SQLException
     {
-        String sql = "INSERT INTO PlayListSong"
-                + "VALUES(?,?)";
         Connection con = dataSource.getConnection();
+        
+        String sql1 =""
+                + "select MAX(seqNo)'top' "
+                + "From PlaylistSong "
+                + "where PlaylistID = "+p.getId();
+        PreparedStatement ps1 = con.prepareStatement(sql1);
+        ResultSet rs = ps1.executeQuery();        
+        rs.next();
+        int seqNo = rs.getInt("top")+1;
+              
+                
+        String sql = ""
+                + "INSERT INTO PlayListSong "
+                + "VALUES(?,?,?)";
+        
         PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setInt(1, p.getId());
-        ps.setString(2, s.getTitle());
+        ps.setInt(2, s.getId());
+        ps.setInt(3, seqNo);
 
         int affectedRows = ps.executeUpdate();
         if (affectedRows == 0)
