@@ -22,6 +22,8 @@ public class SongControlMenu extends Menu
     public SongControlMenu(Song s)
     {
         super("Controls:",
+                "Play",
+                "Stop",
                 "Pause",
                 "Resume",
                 "What's playing?");
@@ -29,7 +31,6 @@ public class SongControlMenu extends Menu
         try
         {
             p = new MyTunesPlayer(song.getFilename());
-            p.play();
         }
         catch (Exception ex)
         {
@@ -44,18 +45,29 @@ public class SongControlMenu extends Menu
         switch (option)
         {
             case 1:
-                pauseSong();
+                playSong();
                 break;
             case 2:
+                stopSong();
+            case 3:
+                pauseSong();
+                break;
+            case 4:
                 resumeSong();
                 break;
-            case 3:
+            case 5:
                 nowPlaying();
                 break;
             case 0:
+                resumeSong();
                 stopSong();
                 break;
         }
+    }
+
+    private void playSong()
+    {
+        p.play();
     }
 
     private void stopSong()
@@ -75,6 +87,15 @@ public class SongControlMenu extends Menu
 
     private void nowPlaying()
     {
-        throw new UnsupportedOperationException("Not yet implemented");
+        printSongHeader();
+        System.out.println(song);
+        System.out.println();
+    }
+
+    private void printSongHeader()
+    {
+        System.out.println();
+        System.out.println(String.format("%-40s %15s %10s %-10s %-3s",
+                "TITLE", "ARTIST", "CATEGORY", "DURATION", "ID"));
     }
 }
