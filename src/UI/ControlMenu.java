@@ -1,7 +1,8 @@
 package UI;
 
+import BE.Playlist;
 import BE.Song;
-import BLL.MyTunesPlayer;
+import BLL.PlaylistManager;
 import BLL.SongManager;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -16,20 +17,17 @@ public class ControlMenu extends Menu
 {
 
     private SongManager sMgr;
-    //Initialisér eventuelt et 'Song' objekt?
+    private PlaylistManager pMgr;
 
     public ControlMenu()
     {
-        super("Controls:",
+        super("Controls: ",
                 "Play song",
-                "Start playlist",
-                "Stop",
-                "Pause",
-                "Resume",
-                "What's playing?");
+                "Start playlist");
         try
         {
             sMgr = SongManager.getInstance();
+            pMgr = PlaylistManager.getInstance();
         }
         catch (Exception ex)
         {
@@ -49,18 +47,6 @@ public class ControlMenu extends Menu
             case 2:
                 playPlaylist();
                 break;
-            case 3:
-                stopPlayer();
-                break;
-            case 4:
-                pausePlayer();
-                break;
-            case 5:
-                resumePlayer();
-                break;
-            case 6:
-                nowPlaying();
-                break;
         }
     }
 
@@ -74,8 +60,7 @@ public class ControlMenu extends Menu
 
             if (song != null)
             {
-                MyTunesPlayer p = new MyTunesPlayer(song.getFilename());
-                p.play();
+                new SongControlMenu(song).run();
             }
             else
             {
@@ -94,26 +79,28 @@ public class ControlMenu extends Menu
 
     private void playPlaylist()
     {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+        try
+        {
+            System.out.print("Enter playlist ID: ");
+            int id = new Scanner(System.in).nextInt();
+            Playlist plist = pMgr.getByID(id);
 
-    private void stopPlayer()
-    {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    private void pausePlayer()
-    {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    private void resumePlayer()
-    {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    private void nowPlaying()
-    {
-        throw new UnsupportedOperationException("Not yet implemented");
+            if (plist != null)
+            {
+                new PlaylistControlMenu(plist).run();
+            }
+            else
+            {
+                System.out.println("ERROR - Song not found.");
+            }
+        }
+        catch (InputMismatchException ie)
+        {
+            System.out.println("ERROR - ID must be number");
+        }
+        catch (Exception e)
+        {
+            System.out.println(" ERROR - " + e.getMessage());
+        }
     }
 }
