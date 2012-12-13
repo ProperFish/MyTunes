@@ -202,7 +202,10 @@ public class PlaylistAccess
      */
     public void update(Playlist p) throws SQLException
     {
-        String sql = "UPDATE Playlist SET Name = ?";
+        String sql = ""
+                + "UPDATE Playlist "
+                + "SET Name = ? "
+                + "WHERE ID ="+ p.getId() ;
         Connection con = dataSource.getConnection();
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, p.getName());

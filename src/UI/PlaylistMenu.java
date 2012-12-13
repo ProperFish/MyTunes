@@ -34,7 +34,8 @@ public class PlaylistMenu extends Menu
                 "Remove a playlist",
                 "Reorder a playlist",
                 "Add song to a playlist",
-                "Remove song from a playlist");
+                "Remove song from a playlist",
+                "rename a playlist");
         this.playlist = p;
         try
         {
@@ -74,6 +75,9 @@ public class PlaylistMenu extends Menu
                 break;
             case 7:
                 removeSong();
+                break;
+            case 8:
+                renamePlaylist();
                 break;
         }
     }
@@ -264,6 +268,32 @@ public class PlaylistMenu extends Menu
         System.out.println("Song removed!");
 
 
+        pause();
+    }
+    private void renamePlaylist()
+    {
+        clear();
+        Playlist plst;        
+        try
+        {
+            System.out.println("Enter playlist id");
+            int id = new Scanner(System.in).nextInt();
+            System.out.println("enter new name");
+            String name = new Scanner(System.in).nextLine();
+            
+            plst= new Playlist(id,name);
+            mgr.updatePlaylist(plst);
+            System.out.println();
+            System.out.println("playlist renamed!");
+        }
+        catch (InputMismatchException ie)
+        {
+            System.out.println("ERROR - ID must be a number");
+        }
+        catch (Exception e)
+        {
+            System.out.println(" ERROR - " + e.getMessage());
+        }
         pause();
     }
 }
