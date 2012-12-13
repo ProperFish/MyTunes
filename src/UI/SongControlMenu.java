@@ -19,6 +19,13 @@ public class SongControlMenu extends Menu
     private final Song song;
     private MyTunesPlayer p;
 
+    /**
+     * Gives the visual output.
+     * Gets the filename for the song to use for MyTunesPlayer,
+     * and initialises the MyTunesPlayer.
+     * 
+     * @param s Song to be used in the class
+     */
     public SongControlMenu(Song s)
     {
         super("Controls:",
@@ -38,6 +45,11 @@ public class SongControlMenu extends Menu
         }
     }
 
+    /**
+     * Tells what is to be executed when an option is selected.
+     *
+     * @param option The option selected in the menu
+     */
     @Override
     protected void doAction(int option)
     {
@@ -58,33 +70,51 @@ public class SongControlMenu extends Menu
             case 5:
                 nowPlaying();
                 break;
-            case 0:
-                resumeSong();
-                stopSong();
+            case 0:             // When exiting the menu extra actions are needed...
+                                // to ensure stable running.
+                resumeSong();   // Resumes the song if song is paused, 
+                                // as the suspended thread deadlocks the program.
+                stopSong();     // Stops the song, as it cannot be stopped...
+                                // after the menu has been closed.
                 break;
         }
     }
 
+    /**
+     * Plays the song.
+     */
     private void playSong()
     {
         p.play();
     }
 
+    /**
+     * Stops the song.
+     */
     private void stopSong()
     {
         p.stop();
     }
 
+    /**
+     * Pauses the song.
+     */
     private void pauseSong()
     {
         p.pause();
     }
 
+    /**
+     * Resumes the song after it has been paused.
+     */
     private void resumeSong()
     {
         p.resume();
     }
 
+    /**
+     * Shows which song is currently playing.
+     */
     private void nowPlaying()
     {
         printSongHeader();

@@ -15,9 +15,14 @@ public class PlaylistControlMenu extends Menu
 
     private final Playlist plist;
 
+    /**
+     * Gives the visual output.
+     *
+     * @param pl Playlist to be used in the class
+     */
     public PlaylistControlMenu(Playlist pl)
     {
-       super("Controls:",
+        super("Controls:",
                 "Play",
                 "Stop",
                 "Pause",
@@ -26,12 +31,17 @@ public class PlaylistControlMenu extends Menu
         this.plist = pl;
     }
 
+    /**
+     * Tells what is to be executed when an option is selected.
+     *
+     * @param option The option selected in the menu
+     */
     @Override
     protected void doAction(int option)
     {
-         switch (option)
+        switch (option)
         {
-           case 1:
+            case 1:
                 playPlaylist();
                 break;
             case 2:
@@ -50,12 +60,12 @@ public class PlaylistControlMenu extends Menu
                 break;
         }
     }
-    
+
     private void playPlaylist()
     {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-    
+
     private void pausePlaylist()
     {
         throw new UnsupportedOperationException("Not yet implemented");
@@ -75,6 +85,4 @@ public class PlaylistControlMenu extends Menu
     {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-
-
 }

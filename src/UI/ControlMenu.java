@@ -16,9 +16,12 @@ import java.util.Scanner;
 public class ControlMenu extends Menu
 {
 
-    private SongManager sMgr;
-    private PlaylistManager pMgr;
+    private SongManager sMgr;       //Creates a SongManager
+    private PlaylistManager pMgr;   //Creates a PlaylistManager
 
+    /**
+     * Gives the visual output, and creates a new instance of the BLL managers.
+     */
     public ControlMenu()
     {
         super("Controls: ",
@@ -36,6 +39,11 @@ public class ControlMenu extends Menu
         }
     }
 
+    /**
+     * Tells what is to be executed when an option is selected.
+     *
+     * @param option The option selected in the menu
+     */
     @Override
     protected void doAction(int option)
     {
@@ -50,6 +58,10 @@ public class ControlMenu extends Menu
         }
     }
 
+    /**
+     * Takes a song ID, and gets a song from it.
+     * Opens a menu with options for playing the song.
+     */
     private void playSong()
     {
         try
@@ -77,6 +89,10 @@ public class ControlMenu extends Menu
         }
     }
 
+    /**
+     * Takes a playlist ID, and gets a playlist from it.
+     * Opens a menu with options for playing the playlist.
+     */
     private void playPlaylist()
     {
         try
