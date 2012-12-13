@@ -81,8 +81,15 @@ public class PlaylistMenu extends Menu
     private void printSongHeader()
     {
         System.out.println();
-        System.out.println(String.format("%3s %30s %-30s %-30s %30s",
-                "ID", "ARTIST", "TITLE", "FILENAME", "CATEGORY"));
+        System.out.println(String.format("%-40s %15s %10s %-10s %-3s",
+                "TITLE", "ARTIST", "CATEGORY", "DURATION", "ID"));
+    }
+    
+    private void printPlaylistHeader()
+    {
+        System.out.println();
+        System.out.println(String.format("%-3s %-15s %-10s",
+                "ID", "NAME", "CREATED"));
     }
 
     private void showAllPlaylists()
@@ -95,6 +102,7 @@ public class PlaylistMenu extends Menu
         {
             ArrayList<Playlist> playlists = mgr.getAll();
 
+            printPlaylistHeader();
             for (Playlist p : playlists)
             {
                 System.out.println(p);
@@ -106,12 +114,6 @@ public class PlaylistMenu extends Menu
         }
         pause();
     }
-
-//    @Override
-//    public String toString()
-//    {
-//        return String.format("%d %s %s", p.getId(), p.getName(), p.getCreated());
-//    }
 
     private void showAllSongs()
     {

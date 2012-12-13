@@ -105,14 +105,6 @@ public class Playlist
     @Override
     public String toString()
     {
-        return String.format("%d %s %s", getId(), getName(), getCreated());
+        return String.format("%-3d %-10s %15s", getId(), getName(), getCreated());
     }
-    
-//    @Override
-//    public String toString()
-//    {
-//        int min = duration/60;
-//        int sec = duration-min*60;
-//        return String.format("%3d %-30s %-30s %4d", title, artist, category, min + ":" + sec);
-//    }
 }
