@@ -176,7 +176,7 @@ public class PlaylistMenu extends Menu
         System.out.println("");
         try
         {
-            System.out.print("Select playlist name: ");
+            System.out.print("Select playlist id: ");
             int id = new Scanner(System.in).nextInt();
 
             mgr.deletePlaylist(id);
