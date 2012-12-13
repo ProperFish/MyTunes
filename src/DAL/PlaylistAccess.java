@@ -174,7 +174,7 @@ public class PlaylistAccess
     public Playlist insert(Playlist p) throws SQLException
     {
         String sql = ""
-                + "INSERT INTO Playlist (Name) "
+                + "INSERT INTO Playlist (Name)"
                 + "VALUES(?)";
 
         Connection con = dataSource.getConnection();
