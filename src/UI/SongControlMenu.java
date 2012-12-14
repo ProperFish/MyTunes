@@ -119,5 +119,6 @@ public class SongControlMenu extends Menu
         printSongHeader();
         System.out.println(song);
         System.out.println();
+        pause();
     }
 }
