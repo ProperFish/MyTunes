@@ -35,7 +35,7 @@ public class PlaylistMenu extends Menu
                 "Reorder a playlist",
                 "Add song to a playlist",
                 "Remove song from a playlist",
-                "rename a playlist");
+                "Rename a playlist");
         this.playlist = p;
         try
         {
