@@ -89,8 +89,8 @@ public class PlaylistManager {
      * @param p the playlist object to be uploaded.
      * @throws SQLException
      */
-    public void addPlaylist(Playlist p) throws SQLException {
-        db.insert(p);
+    public Playlist addPlaylist(Playlist p) throws SQLException {
+        return db.insert(p);
     }
 
     /**
