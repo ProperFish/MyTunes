@@ -120,11 +120,4 @@ public class SongControlMenu extends Menu
         System.out.println(song);
         System.out.println();
     }
-
-    private void printSongHeader()
-    {
-        System.out.println();
-        System.out.println(String.format("%-40s %15s %10s %-10s %-3s",
-                "TITLE", "ARTIST", "CATEGORY", "DURATION", "ID"));
-    }
 }

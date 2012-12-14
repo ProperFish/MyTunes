@@ -87,15 +87,6 @@ public class PlaylistMenu extends Menu
     }
 
     /**
-     * Prints the song-header to be used in other print-operations.
-     */
-    private void printSongHeader()
-    {
-        System.out.println();
-        System.out.println(String.format("%-40s %15s %10s %-10s %-3s",
-                "TITLE", "ARTIST", "CATEGORY", "DURATION", "ID"));
-    }
-    /**
      * Prints the uniform playlist-header to be used in other print-operations.
      */
     private void printPlaylistHeader()
