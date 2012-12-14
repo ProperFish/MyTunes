@@ -10,14 +10,16 @@ import java.util.Scanner;
 /**
  * MyTunes, EASV (14/12/2012)
  *
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og
- * Jesper Agerbo Hansen
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen.
  */
 public class SongMenu extends Menu
 {
-
+    //Instance fields.
     private SongManager mgr;
-
+    
+    /**
+     * Gives the visual output.
+     */
     public SongMenu()
     {
         super("Songs:",
@@ -38,6 +40,11 @@ public class SongMenu extends Menu
         }
     }
 
+    /**
+     * Tells what is to be executed when an option is selected.
+     *
+     * @param option The option selected in the menu
+     */
     @Override
     protected void doAction(int option)
     {
@@ -64,6 +71,9 @@ public class SongMenu extends Menu
         }
     }
 
+    /**
+     * Prints the song-header to be used in other print-operations.
+     */
     private void printSongHeader()
     {
         System.out.println();
@@ -71,6 +81,9 @@ public class SongMenu extends Menu
                 "TITLE", "ARTIST", "CATEGORY", "DURATION", "ID"));
     }
 
+    /**
+     * Lists every song on the database.
+     */
     private void listAll()
     {
         clear();
@@ -94,6 +107,9 @@ public class SongMenu extends Menu
         pause();
     }
 
+    /**
+     * Searches for a song by both artist and title on the database.
+     */
     private void search()
     {
         clear();
@@ -121,6 +137,9 @@ public class SongMenu extends Menu
         pause();
     }
 
+    /**
+     * Adds a song to the database for further use in the program.
+     */
     private void addSong()
     {
         clear();
@@ -162,6 +181,9 @@ public class SongMenu extends Menu
         pause();
     }
 
+    /**
+     * Updates a song-entry in the database by prompting the user for changes.
+     */
     private void updateSong()
     {
         clear();
@@ -192,6 +214,9 @@ public class SongMenu extends Menu
         }
     }
 
+    /**
+     * Removes a song from the database by ID.
+     */
     private void removeSong()
     {
         clear();
@@ -215,9 +240,12 @@ public class SongMenu extends Menu
         }
     }
 
-    // needs to be discussed
+    /**
+     * TBI
+     */
     private void check()
     {
+        // needs to be discussed
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

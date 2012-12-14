@@ -12,14 +12,19 @@ import java.util.Properties;
 
 /**
  * MyTunes, EASV (14/12/2012)
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen.
  */
 
 public class MyTunesManager
 {
-
+    //Instance fields.
     private SQLServerDataSource dataSource;
 
+    /**
+     * Loads the configuration from the MyTunes.cfg file in the source directory.
+     * Sets all the necessary parameters for the dataSource.
+     * @throws Exception 
+     */
     public MyTunesManager() throws Exception
     {
         Properties props = new Properties();
@@ -34,6 +39,11 @@ public class MyTunesManager
         dataSource.setPassword(props.getProperty("PASSWORD"));
     }
 
+    /**
+     * Gets all songs from the database, by using an SQL Statement.
+     * @return an arrayList containing every song in the database.
+     * @throws SQLException 
+     */
     public ArrayList<Song> getAll() throws SQLException
     {
         try (Connection con = dataSource.getConnection())
@@ -42,8 +52,8 @@ public class MyTunesManager
             ResultSet rs = st.executeQuery(""
                     + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category'"
                     + "FROM Song"
-                    + "inner join Artist on Song.ArtistID = Artist.ID"
-                    + "inner join Category on Song.CategoryID = Category.ID"
+                    + "INNER JOIN Artist ON Song.ArtistID = Artist.ID"
+                    + "INNER JOIN Category ON Song.CategoryID = Category.ID"
                     + "ORDER BY Song.Title");
 
             ArrayList<Song> songs = new ArrayList<>();
@@ -63,6 +73,12 @@ public class MyTunesManager
         }
     }
 
+    /**
+     * Returns a song-object populated by data from a corresponding ID on the server.
+     * @param id the ID to be fetched.
+     * @return the new song-object.
+     * @throws SQLException 
+     */
     public Song getByID(int id) throws SQLException
     {
         try (Connection con = dataSource.getConnection())
@@ -71,8 +87,8 @@ public class MyTunesManager
             ResultSet rs = st.executeQuery(""
                     + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category'"
                     + "FROM Song"
-                    + "inner join Artist on Song.ArtistID = Artist.ID"
-                    + "inner join Category on Song.CategoryID = Category.ID"
+                    + "INNER JOIN Artist ON Song.ArtistID = Artist.ID"
+                    + "INNER JOIN Category ON Song.CategoryID = Category.ID"
                     + "WHERE Song.ID = " + id
                     + "ORDER BY Song.Title");
             Song song;
@@ -88,6 +104,12 @@ public class MyTunesManager
         }
     }
 
+    /**
+     * Gets a song-object on the server by searching for a name.
+     * @param name the name to be searched for.
+     * @return the song-object that was requested (hopefully!).
+     * @throws SQLException 
+     */
     public ArrayList<Song> getByName(String name) throws SQLException
     {
         try (Connection con = dataSource.getConnection())
@@ -95,8 +117,8 @@ public class MyTunesManager
             String sql = (""
                     + "SELECT Song.*, Artist.Name'Artist', Category.Category'Category'"
                     + "FROM Song"
-                    + "inner join Artist on Song.ArtistID = Artist.ID"
-                    + "inner join Category on Song.CategoryID = Category.ID"
+                    + "INNER JOIN Artist ON Song.ArtistID = Artist.ID"
+                    + "INNER JOIN Category ON Song.CategoryID = Category.ID"
                     + "WHERE Title = ? OR Artist = ?"
                     + "ORDER BY Song.Title");
             PreparedStatement ps = con.prepareStatement(sql);
@@ -121,6 +143,12 @@ public class MyTunesManager
         }
     }
 
+    /**
+     * Inserts (adds) a song to the database from a given song-object.
+     * @param s the song-object to be added.
+     * @return the new song-object (with ID) from the server.
+     * @throws SQLException 
+     */
     public Song insert(Song s) throws SQLException
     {
         String sql = ""
@@ -162,6 +190,11 @@ public class MyTunesManager
         return new Song(id, s);
     }
 
+    /**
+     * Updates an existing song on the server.
+     * @param s the song-object to be uploaded.
+     * @throws SQLException 
+     */
     public void update(Song s) throws SQLException
     {
         String sql = "UPDATE Song SET Title = ?, Artist = ?, Category = ? , Duration = ? WHERE Id = ?";
@@ -181,6 +214,11 @@ public class MyTunesManager
         }
     }
 
+    /**
+     * Deletes a song in the database from a given ID.
+     * @param id the ID to be purged.
+     * @throws SQLException 
+     */
     public void delete(int id) throws SQLException
     {
         String sql = "DELETE FROM Song WHERE Id = ?";

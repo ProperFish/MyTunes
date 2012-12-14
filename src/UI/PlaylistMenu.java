@@ -8,23 +8,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * MyTunes, EASV (14/12/2012)
  *
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og
- * Jesper Agerbo Hansen
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen.
  */
 public class PlaylistMenu extends Menu
 {
-
+    //Instance fields.
     private PlaylistManager mgr;
     private SongManager sMgr;
     private final Playlist playlist;
     private Playlist p;
 
+    /**
+     * Constructs a PlaylistMenu with correct options.
+     */
     public PlaylistMenu()
     {
         super("Playlist:",
@@ -50,6 +50,10 @@ public class PlaylistMenu extends Menu
 
     }
 
+    /**
+     * Overrides the doAction method to accept the menu-options, and react accordingly.
+     * @param option the option to be reacted to.
+     */
     @Override
     protected void doAction(int option)
     {
@@ -82,13 +86,18 @@ public class PlaylistMenu extends Menu
         }
     }
 
+    /**
+     * Prints the song-header to be used in other print-operations.
+     */
     private void printSongHeader()
     {
         System.out.println();
         System.out.println(String.format("%-40s %15s %10s %-10s %-3s",
                 "TITLE", "ARTIST", "CATEGORY", "DURATION", "ID"));
     }
-    
+    /**
+     * Prints the uniform playlist-header to be used in other print-operations.
+     */
     private void printPlaylistHeader()
     {
         System.out.println();
@@ -96,6 +105,9 @@ public class PlaylistMenu extends Menu
                 "ID", "NAME", "CREATED"));
     }
 
+    /**
+     * Shows all playlists in the database.
+     */
     private void showAllPlaylists()
     {
         clear();
@@ -118,7 +130,10 @@ public class PlaylistMenu extends Menu
         }
         pause();
     }
-
+    
+    /**
+     * Shows all songs from a given playlist.
+     */
     private void showAllSongs()
     {
         clear();
@@ -142,6 +157,9 @@ public class PlaylistMenu extends Menu
         pause();
     }
 
+    /**
+     * Adds a playlist to the database, prompting the user for the neccesary input.
+     */
     private void addPlaylist()
     {
         clear();
@@ -169,6 +187,9 @@ public class PlaylistMenu extends Menu
         pause();
     }
 
+    /**
+     * Removes a playlist from the database from a user-input ID.
+     */
     private void removePlaylist()
     {
         clear();
@@ -192,13 +213,16 @@ public class PlaylistMenu extends Menu
         }
     }
 
+    /**
+     * TBI
+     */
     private void reorderPlaylist()
     {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /**
-     *
+     *  Adds a song to a database. Both ID's must be known beforehand, as they are prompted for.
      */
     private void addSong()
     {
@@ -229,7 +253,7 @@ public class PlaylistMenu extends Menu
     }
 
     /**
-     *
+     *  Removes a song from a given playlist. Both ID's must be known beforehand.
      */
     private void removeSong()
     {
@@ -270,6 +294,10 @@ public class PlaylistMenu extends Menu
 
         pause();
     }
+    
+    /**
+     * Renames a playlist with a prompted ID by updating the local object, and then uploading it.
+     */
     private void renamePlaylist()
     {
         clear();

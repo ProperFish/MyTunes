@@ -61,26 +61,41 @@ public class PlaylistControlMenu extends Menu
         }
     }
 
+    /**
+     * TBI
+     */
     private void playPlaylist()
     {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    /**
+     * TBI
+     */
     private void pausePlaylist()
     {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    /**
+     * TBI
+     */
     private void resumePlaylist()
     {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    /**
+     * TBI
+     */
     private void nowPlaying()
     {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    /**
+     * TBI
+     */
     private void stopPlaylist()
     {
         throw new UnsupportedOperationException("Not yet implemented");

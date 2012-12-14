@@ -10,8 +10,7 @@ import BLL.MyTunesPlayer;
 /**
  * MyTunes, EASV (14/12/2012)
  *
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og
- * Jesper Agerbo Hansen
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen.
  */
 public class SongControlMenu extends Menu
 {

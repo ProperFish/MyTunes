@@ -2,51 +2,63 @@ package UI;
 
 /**
  * MyTunes, EASV (14/12/2012)
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
+ *
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen.
  */
 
-public class MainMenu extends Menu
-{
-    public MainMenu()
-    {
+public class MainMenu extends Menu {
+
+    /**
+     * Creates the options for our Main menu.
+     */
+    public MainMenu() {
         super("Welcome to MyTunes!",
                 "Administration",
                 "Control");
-        }
+    }
+
+    /**
+     * Overrides the doAction method for more practical use in our case.
+     *
+     * @param option the option to be performed.
+     */
     @Override
-    protected void doAction(int option)
-    {
-        switch (option)
-        {
+    protected void doAction(int option) {
+        switch (option) {
             case 1:
-                administrationMenu();                        
+                administrationMenu();
                 break;
             case 2:
                 controlMenu();
                 break;
         }
     }
-    private void controlMenu()
-    {
+
+    /**
+     * Creates a new controlMenu, and goes there.
+     */
+    private void controlMenu() {
         clear();
-        try
+        try 
         {
-        new ControlMenu().run();
-        }
-        catch (Exception e)
+            new ControlMenu().run();
+        } 
+        catch (Exception e) 
         {
             System.out.println(" ERROR - " + e.getMessage());
         }
     }
-    
-    private void administrationMenu()
-    {
+
+    /**
+     * Creates a new administrationMenu, and goes there.
+     */
+    private void administrationMenu() {
         clear();
-        try
+        try 
         {
-        new AdministrationMenu().run();
-        }
-        catch (Exception e)
+            new AdministrationMenu().run();
+        } 
+        catch (Exception e) 
         {
             System.out.println(" ERROR - " + e.getMessage());
         }

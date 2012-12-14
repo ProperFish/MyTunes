@@ -7,14 +7,16 @@ import java.util.Scanner;
 /**
  * MyTunes, EASV (14/12/2012)
  *
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og
- * Jesper Agerbo Hansen
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen.
  */
 public class SongUpdateMenu extends Menu
 {
 
     private final Song song;
-
+    /**
+ * The visual output.
+ * @param s the song-object to be used for modification. 
+ */
     public SongUpdateMenu(Song s)
     {
         super("Update song:",
@@ -23,7 +25,12 @@ public class SongUpdateMenu extends Menu
                 "Edit category");
         this.song = s;
     }
-
+    
+    /**
+     * Tells what is to be executed when an option is selected.
+     *
+     * @param option The option selected in the menu
+     */
     @Override
     protected void doAction(int option)
     {
@@ -44,6 +51,9 @@ public class SongUpdateMenu extends Menu
         }
     }
 
+    /**
+     * Edits the title of a song on the server.
+     */
     private void editTitle()
     {
         System.out.println();
@@ -52,6 +62,9 @@ public class SongUpdateMenu extends Menu
         song.setTitle(title);
     }
 
+    /**
+     * Edits the artist of a song on the server.
+     */
     private void editArtist()
     {
         System.out.println();
@@ -60,6 +73,9 @@ public class SongUpdateMenu extends Menu
         song.setArtist(artist);
     }
 
+    /**
+     * Edits the category of a song on the server.
+     */
     private void editCategory()
     {
         System.out.println();
@@ -68,6 +84,9 @@ public class SongUpdateMenu extends Menu
         song.setCategory(category);
     }
 
+    /**
+     * Saves all local song-updates to the server.
+     */
     private void saveUpdate()
     {
         System.out.println("Do you wish to save changes?");

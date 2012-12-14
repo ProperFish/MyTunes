@@ -14,8 +14,7 @@ import java.util.Properties;
 /**
  * MyTunes, EASV (14/12/2012)
  *
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og
- * Jesper Agerbo Hansen
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen.
  */
 public class SongAccess
 {
@@ -24,9 +23,9 @@ public class SongAccess
     private SQLServerDataSource dataSource;
 
     /**
-     * Establishes a connection to the server from the "MyTunes.cfg" file.
-     *
-     * @throws Exception throws SQLExceptions and a custom error.
+     * Loads the configuration from the MyTunes.cfg file in the source directory.
+     * Sets all the necessary parameters for the dataSource.
+     * @throws Exception 
      */
     public SongAccess() throws Exception
     {
@@ -155,9 +154,10 @@ public class SongAccess
     public Song insert(Song s) throws SQLException
     {
         Connection con = dataSource.getConnection();
-        String ttsql = "SELECT Artist.ID "
+        String ttsql = ""
+                + "SELECT Artist.ID "
                 + "FROM Artist "
-                + "where Name like ?";
+                + "WHERE Name LIKE ?";
 
         PreparedStatement ttps = con.prepareStatement(ttsql);
 
@@ -228,7 +228,7 @@ public class SongAccess
         {
             String ttsql = "SELECT Artist.ID "
                     + "FROM Artist "
-                    + "where Name like ?";
+                    + "WHERE Name LIKE ?";
 
             PreparedStatement ttps = con.prepareStatement(ttsql);
 

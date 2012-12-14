@@ -7,6 +7,9 @@ package UI;
 
 public class AdministrationMenu extends Menu
 {
+    /**
+     * Creates the options for our Administration menu.
+     */
     public AdministrationMenu()
     {
         super("Administration:",
@@ -14,6 +17,10 @@ public class AdministrationMenu extends Menu
               "Playlist");
     }
 
+    /**
+     * Overrides the doAction-method for more practical use in our case.
+     * @param option 
+     */
     @Override
     protected void doAction(int option)
     {
@@ -27,6 +34,10 @@ public class AdministrationMenu extends Menu
                 break;
         }
     }
+    
+    /**
+     * Creates a new instance of the "SongMenu"-menu, and goes there.
+     */
     private void songMenu()
     {
         clear();
@@ -40,6 +51,9 @@ public class AdministrationMenu extends Menu
         }
     }
     
+    /**
+     * Creates a new instance of the "PlaylistMenu"-menu, and goes there.
+     */
     private void playlistMenu()
     {
         clear();

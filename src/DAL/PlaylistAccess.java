@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -17,15 +16,18 @@ import java.util.Properties;
 /**
  * MyTunes, EASV (14/12/2012)
  *
- * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og
- * Jesper Agerbo Hansen
+ * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen.
  */
 public class PlaylistAccess
 {
     // Instance fields.
-
     private SQLServerDataSource dataSource;
-
+    
+    /**
+     * Loads the configuration from the MyTunes.cfg file in the source directory.
+     * Sets all the necessary parameters for the dataSource.
+     * @throws Exception 
+     */
     public PlaylistAccess() throws Exception
     {
         Properties props = new Properties();
@@ -82,11 +84,11 @@ public class PlaylistAccess
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(""
                     + "SELECT PlaylistSong.*, Song.*,Artist.Name'Artist', Category.Category'Category' "
-                    + "FROM PlaylistSong inner join Song "
+                    + "FROM PlaylistSong INNER JOIN Song "
                     + "ON PlaylistID = " + id +" AND Song.ID = PlaylistSong.SongID "
                     + "INNER JOIN Artist on Song.ArtistID = Artist.ID "
                     + "INNER JOIN Category on Song.CategoryID = Category.ID "
-                    + " ORDER BY seqNo");
+                    + "ORDER BY seqNo");
             ArrayList<Song> results = new ArrayList<>();
             while (rs.next())
             {
@@ -237,6 +239,12 @@ public class PlaylistAccess
         }
     }
 
+    /**
+     * Adds a song-object to a playlist-object in the database.
+     * @param p the playlist-object for the song to be added to.
+     * @param s the song-object to be added to the playlist.
+     * @throws SQLException 
+     */
     public void addSong(Playlist p, Song s) throws SQLException
     {
         Connection con = dataSource.getConnection();
@@ -270,6 +278,12 @@ public class PlaylistAccess
         keys.next();
     }
 
+    /**
+     * Removes a song from a given playlist on the server.
+     * @param p the playlist-object for the song to be removed from.
+     * @param s the song-object to be removed.
+     * @throws SQLException 
+     */
     public void removeSong(Playlist p, Song s) throws SQLException
     {
         String sql = "DELETE from PlayListSong"

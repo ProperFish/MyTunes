@@ -10,17 +10,25 @@ import java.util.Scanner;
 
 public abstract class Menu
 {
-
+    //Instance fields.
     protected int EXIT_OPTION = 0;
     private final String header;
     private final String[] menuItems;
 
+    /**
+     * Creates a new menu with a header-string and the items in the menu.
+     * @param header the header-string to be appended to the menu.
+     * @param menuItems the items to be added to the menu.
+     */
     public Menu(String header, String... menuItems)
     {
         this.header = header;
         this.menuItems = menuItems;
     }
 
+    /**
+     * The run-method responsible for showing menus, and accepting option-choices.
+     */
     public void run()
     {
         boolean done = false;
@@ -36,6 +44,9 @@ public abstract class Menu
         }
     }
 
+    /**
+     * The showMenu method is responsible for printing the menu and its options.
+     */
     private void showMenu()
     {
         clear();
@@ -54,6 +65,10 @@ public abstract class Menu
                 String.format("%2d)  %s", EXIT_OPTION, "Exit"));
     }
 
+    /**
+     * Accepts an option from the user.
+     * @return the option the user input.
+     */
     private int getOption()
     {
         while (true)
@@ -79,6 +94,9 @@ public abstract class Menu
         }
     }
     
+    /**
+     * "Clears" the screen by printing 50 blank lines to it.
+     */
     protected void clear()
     {
         for (int i = 0; i < 50; i++)
@@ -87,6 +105,9 @@ public abstract class Menu
         }
     }
     
+    /**
+     * "Pauses" the program, asking the user to press enter to continue execution.
+     */
     protected void pause()
     {
         System.out.println("\nPress ENTER to continue...");
