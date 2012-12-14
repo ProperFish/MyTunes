@@ -297,7 +297,7 @@ public class PlaylistMenu extends Menu
         {
             System.out.print("Enter playlist id: ");
             int id = new Scanner(System.in).nextInt();
-            System.out.println("enter new name");
+            System.out.print("Enter new name: ");
             String name = new Scanner(System.in).nextLine();
             
             plst= new Playlist(id,name);
