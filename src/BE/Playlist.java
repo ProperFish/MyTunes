@@ -106,7 +106,7 @@ public class Playlist
     }
     
     /**
-     * Overrides the toString-method for more practical use in our case.
+     * Overrides the toString-method for header-formatting.
      * @return a formatted string.
      */
     @Override
