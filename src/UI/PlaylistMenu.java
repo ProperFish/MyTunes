@@ -128,7 +128,7 @@ public class PlaylistMenu extends Menu
     private void showAllSongs()
     {
         clear();
-        System.out.println("Enter playlist ID");
+        System.out.print("Enter playlist ID: ");
         int id = new Scanner(System.in, "iso-8859-1").nextInt();
 
         try
@@ -222,7 +222,7 @@ public class PlaylistMenu extends Menu
         Song song;
         try
         {
-            System.out.println("Enter playlist id");
+            System.out.print("Enter playlist id: ");
             int id = new Scanner(System.in).nextInt();
             plst = mgr.getByID(id);
             System.out.print("Enter song id: ");
@@ -252,7 +252,7 @@ public class PlaylistMenu extends Menu
 
         Playlist pl = null;
         Song song = null;
-        System.out.println("Enter playlist id");
+        System.out.print("Enter playlist id: ");
         int id = new Scanner(System.in).nextInt();
         System.out.print("Enter song id: ");
         int sid = new Scanner(System.in).nextInt();
@@ -295,7 +295,7 @@ public class PlaylistMenu extends Menu
         Playlist plst;        
         try
         {
-            System.out.println("Enter playlist id");
+            System.out.print("Enter playlist id: ");
             int id = new Scanner(System.in).nextInt();
             System.out.println("enter new name");
             String name = new Scanner(System.in).nextLine();
