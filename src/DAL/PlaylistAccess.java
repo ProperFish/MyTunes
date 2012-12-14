@@ -286,8 +286,10 @@ public class PlaylistAccess
      */
     public void removeSong(Playlist p, Song s) throws SQLException
     {
-        String sql = "DELETE from PlayListSong"
-                + "VALUES(?,?)";
+        String sql = ""
+                + "DELETE "
+                + "from PlayListSong "
+                + "WHERE PlaylistID = ? and SongID = ?";
         Connection con = dataSource.getConnection();
         PreparedStatement ps = con.prepareStatement(sql);
 
