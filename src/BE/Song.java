@@ -18,7 +18,8 @@ public class Song
     /**
      * Constructor for a song-object, accepting;
      * ID and an already existing song-object..
-     * @param id and song object.
+     * @param id the id to be assigned.
+     * @param s the existing song-object.
      */
     public Song(int id, Song s)
     {
@@ -33,7 +34,10 @@ public class Song
     /**
      * Constructor for a song-object, accepting;
      * Title, Artist, Category and Filename.
-     * @param title, artist, category and filename.
+     * @param title the title-string.
+     * @param artist the artist-string.
+     * @param category the category-string.
+     * @param filename the location of the file.
      */
     public Song(String title, String artist, String category, String filename)
     {
@@ -43,7 +47,15 @@ public class Song
         this.filename = filename;
     }
     
-        public Song(String title, String artist, int duration, String filename, String category)
+    /**
+     * Constructor for a song-object, accepting;
+     * @param title the title-string.
+     * @param artist the artist-string.
+     * @param duration the duration-integer.
+     * @param filename the location of the song.
+     * @param category the category-string.
+     */
+    public Song(String title, String artist, int duration, String filename, String category)
     {
         this.title = title;
         this.artist = artist;
@@ -73,7 +85,11 @@ public class Song
     /**
      * Constructor for a song-object, accepting;
      * ID, Title, Artist, Category, Filename and Duration.
-     * @param id, title, artist, category, filename and duration.
+     * @param id the id-integer.
+     * @param artist the artist-string.
+     * @param category the category-string.
+     * @param filename the location of the file.
+     * @param duration the duration-integer.
      */
     public Song(int id, String title , String artist, String category, String filename, int duration)
     {
@@ -184,6 +200,10 @@ public class Song
         this.filename = filename;
     }
 
+    /**
+     * Overrides the toString method for more practical use in our case.
+     * @return the formatted string.
+     */
     @Override
     public String toString()
     {

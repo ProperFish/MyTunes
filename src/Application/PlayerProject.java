@@ -8,7 +8,7 @@ import BLL.MyTunesPlayer;
 import java.util.Scanner;
 
 /**
- *
+ * Code by Bent H Pedersen.
  * @author bhp
  */
 public class PlayerProject

@@ -11,7 +11,7 @@ import javazoom.jl.player.Player;
 
 
 /**
- *
+ * Code by Bent H Pedersen.
  * @author bhp
  */
 public class MyTunesPlayer

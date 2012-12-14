@@ -1,7 +1,5 @@
 package BE;
 
-import java.sql.Timestamp;
-
 /**
  * MyTunes, EASV (14/12/2012)
  * @author Lars Vad Sørensen, Jakob Hansen, Klaus Teddy Bøgelund Andresen og Jesper Agerbo Hansen
@@ -12,13 +10,7 @@ public class Playlist
     // Instance fields.
     private int id;
     private String name;
-    private String created;
-    
-    /**
-     * Constructor for a playlist-object, accepting;
-     * ID and an already existing playlist-object..
-     * @param id and playlist object.
-     */
+    private String created;    
     
     /**
      * Creates a new playlist from a given name.
@@ -29,6 +21,11 @@ public class Playlist
         this.name = name;
     }
     
+    /**
+     * Constructor for a playlist-object, accepting;
+     * ID and an already existing playlist-object..
+     * @param id and playlist object.
+     */
     public Playlist(int id, Playlist p)
     {
         this.id = p.id;
@@ -37,9 +34,10 @@ public class Playlist
     }
     
     /**
-     * Constructor for a playlist-object, accepting;
-     * ID and Name.
-     * @param id and name.
+     * A constructor a playlist-object, that accepts:
+     * @param id the id to be assigned to the object.
+     * @param name the name to be assigned to the object.
+     * @param timestamp the timestamp to be assigned to the object.
      */
     public Playlist(int id, String name, java.sql.Timestamp timestamp)
     {
@@ -47,7 +45,12 @@ public class Playlist
         this.id = id;
         this.created = timestamp.toString();
     }
-    
+
+    /**
+     * A constructor for a playlist-object, that accepts:
+     * @param id the id to be assigned to the object.
+     * @param name  the name to be assigned to the object.
+    */
     public Playlist(int id, String name)
     {
         this.name = name;
@@ -102,6 +105,10 @@ public class Playlist
         return created;
     }
     
+    /**
+     * Overrides the toString-method for more practical use in our case.
+     * @return a formatted string.
+     */
     @Override
     public String toString()
     {
